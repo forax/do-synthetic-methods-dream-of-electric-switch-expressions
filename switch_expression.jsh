@@ -72,7 +72,6 @@ void color(String vehicle) {
       System.out.println((length < 4)? "blue": "red");
       break;
     case "bus":
-      var length = 0;  // removing var works !!
       System.out.println("yellow");
       break;
     // default:
