@@ -197,12 +197,12 @@ void color(String vehicle) {
 }
 color("sedan");
 
-// ## backward source compatibility
+// ## Backward source compatibility
 // `yield` is a new keyword:
 // - what about a local variable named `yield` ?
 // - what about `Thread.yield()` ?
 
-// ## `yield` is a restrited keyword
+// ## `yield` is a restricted keyword
 // `yield` is only enable at the beginning of a statement
 void color(String vehicle) {
   Thread.yield();
