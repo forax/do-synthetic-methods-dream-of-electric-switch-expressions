@@ -4,6 +4,8 @@
 
 // # Sealed Types
 
+// # Sealed types are not integrated in Java 14 so this is a work in progress
+
 // ## Design forces
 // - we need to be exhaustive on types
 
