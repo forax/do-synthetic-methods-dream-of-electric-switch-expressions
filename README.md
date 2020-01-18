@@ -3,12 +3,12 @@ Slides for DevoxxFR 2020
 
 ## Content
 
-0. [instanceof.ipynb](slideshow/instanceof.ipynb)
-1. [record.ipynb](slideshow/record.ipynb)
-2. [sealed_types.ipynb](slideshow/sealed_types.ipynb)
-3. [switch_expression.ipynb](slideshow/switch_expression.ipynb)
-4. [toward_pattern_matching.ipynb](slideshow/toward_pattern_matching.ipynb)
-
+0. [foreign_memory_api.ipynb](slideshow/foreign_memory_api.ipynb)
+1. [instanceof.ipynb](slideshow/instanceof.ipynb)
+2. [record.ipynb](slideshow/record.ipynb)
+3. [sealed_types.ipynb](slideshow/sealed_types.ipynb)
+4. [switch_expression.ipynb](slideshow/switch_expression.ipynb)
+5. [toward_pattern_matching.ipynb](slideshow/toward_pattern_matching.ipynb)
 
 ## Using Jupyter notebook with RISE
 
