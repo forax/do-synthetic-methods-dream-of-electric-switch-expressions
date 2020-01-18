@@ -35,7 +35,7 @@ You need to have docker already installed, then
 
 
 ### or install everything on your laptop
-You need to have python3 and Java 14 already installed, then
+You need to have python3 and latest Java 15 already installed, then
 
 - clone this repository
   ```
@@ -57,13 +57,13 @@ You need to have python3 and Java 14 already installed, then
   ```
   jupyter kernelspec list
   ```
-  then copy the file `kernel.json` to the java kernel directory
+  then copy the file `kernel.json` in the folder `docker` to the java kernel directory
   ```
-  cp kernel.json /path/to/jupyter/kernels/java
+  cp docker/kernel.json /path/to/jupyter/kernels/java
   ```
 - set the env compiler option enabling the preview features
   ```
-  export IJAVA_COMPILER_OPTS="--enable-preview -source 14 --add-modules jdk.incubator.foreign"
+  export IJAVA_COMPILER_OPTS="--enable-preview -source 15 --add-modules jdk.incubator.foreign"
   ```
 - run the notebook
   ```
@@ -75,7 +75,7 @@ You need to have python3 and Java 14 already installed, then
 ### Build jupyter slideshow from jshell files
 The jupyter files (.ipynb) are generated from the jshell files using a small Java script.
 
-Using java 14
+Using java 15
 ```
   java --enable-preview build/build.java
 ```
