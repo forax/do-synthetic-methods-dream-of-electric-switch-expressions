@@ -63,7 +63,7 @@ You need to have python3 and Java 14 already installed, then
   ```
 - set the env compiler option enabling the preview features
   ```
-  export IJAVA_COMPILER_OPTS="--enable-preview -source 14"
+  export IJAVA_COMPILER_OPTS="--enable-preview -source 14 --add-modules jdk.incubator.foreign"
   ```
 - run the notebook
   ```

@@ -37,7 +37,7 @@ RUN chown -R $NB_UID $HOME
 USER $NB_USER
 
 # Launch the notebook server
-ENV IJAVA_COMPILER_OPTS "--enable-preview --source=15"
+ENV IJAVA_COMPILER_OPTS "--enable-preview --source=15 --add-modules jdk.incubator.foreign"
 WORKDIR $HOME
 CMD ["jupyter", "notebook", "--no-browser", "--ip", "0.0.0.0"]
 
