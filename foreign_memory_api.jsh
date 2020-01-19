@@ -320,16 +320,20 @@ try (var segment = MemorySegment.allocateNative(layout1)) {
 
 // with a `intHandle`
 // ```java
-// for (var i = 0; i < 1024; i++) {
-//   SINK = (int)INT_HANDLE.get(BASE.offset(i * 4));
+// var sum = 0;
+//  for (var i = 0; i < 1024; i++) {
+//    sum += (int)INT_HANDLE.get(BASE.addOffset(i * 4));
 // }
+// blackhole.consume(sum);
 // ```
 
 // with a `intArrayHandle`
 // ```java
+// var sum = 0;
 // for (var i = 0; i < 1024; i++) {
-//   SINK = (int)INT_ARRAY_HANDLE.get(BASE, (long) i);
+//   sum += (int)INT_ARRAY_HANDLE.get(BASE, (long) i);
 // }
+// blackhole.consume(sum);
 // ```
 
 // ## Perf: Read 8192 bytes as ints
@@ -337,10 +341,10 @@ try (var segment = MemorySegment.allocateNative(layout1)) {
 
 // | Benchmark             | Score   | Error    | Units |
 // | --------------------- | ------- | -------- | ----- |
-// |bytebuffer             |  11.919 | ±  0.046 | ns/op |
-// |segment_intArrayHandle |   0.576 | ±  0.013 | ns/op |
-// |segment_intHandle      | 593.806 | ±  1.697 | ns/op |
-// |unsafe_noclean         |   0.462 | ±  0.022 | ns/op |
+// |bytebuffer             | 245.003 | ±  7.009 | ns/op |
+// |segment_intArrayHandle | 246.747 | ±  7.306 | ns/op |
+// |segment_intHandle      | 627.923 | ±  1.115 | ns/op |
+// |unsafe                 | 240.544 | ±  9.917 | ns/op |
 
 // ## Perf: Read 8192 bytes as ints (2)
 // Creation + loop
@@ -349,9 +353,11 @@ try (var segment = MemorySegment.allocateNative(layout1)) {
 // ```java
 // try(var segment = MemorySegment.allocateNative(8192)) {
 //   var base = segment.baseAddress();
+//   var sum = 0;
 //   for (var i = 0; i < 1024; i++) {
-//     SINK = (int)INT_ARRAY_HANDLE.get(base, (long) i);
+//     sum += (int)INT_ARRAY_HANDLE.get(base, (long) i);
 //   }
+//   blackhole.consume(sum);
 // }
 // ```
 
@@ -360,11 +366,11 @@ try (var segment = MemorySegment.allocateNative(layout1)) {
 
 // | Benchmark             | Score   | Error    | Units |
 // | --------------------- | ------- | -------- | ----- |
-// |bytebuffer             | 447.982 | ± 14.309 | ns/op |
-// |segment_intArrayHandle | 379.379 | ±  5.325 | ns/op |
-// |segment_intHandle      |1010.428 | ± 26.654 | ns/op |
-// |unsafe_clean           | 356.976 | ± 10.554 | ns/op |
-// |unsafe_noclean         |  94.211 | ±  0.249 | ns/op |
+// |bytebuffer             | 672.081 | ± 19.294 | ns/op |
+// |segment_intArrayHandle | 620.525 | ± 10.574 | ns/op |
+// |segment_intHandle      | 869.473 | ±  6.158 | ns/op |
+// |unsafe_clean           | 594.088 | ± 23.806 | ns/op |
+// |unsafe_noclean         | 322.504 | ±  0.473 | ns/op |
 
 // ## Perf: Write 8192 bytes as ints
 // loop only, constant memory
@@ -384,7 +390,7 @@ try (var segment = MemorySegment.allocateNative(layout1)) {
 // |bytebuffer             |  37.467 | ±  0.323 | ns/op |
 // |segment_intArrayHandle |  32.235 | ±  0.276 | ns/op |
 // |segment_intHandle      | 544.011 | ± 17.242 | ns/op |
-// |unsafe_noclean         | 249.486 | ±  7.173 | ns/op |
+// |unsafe                 | 249.486 | ±  7.173 | ns/op |
 
 // ## Perf: Write 8192 bytes as ints (2)
 // Creation + loop
