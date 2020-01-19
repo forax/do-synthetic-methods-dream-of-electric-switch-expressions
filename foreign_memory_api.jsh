@@ -20,10 +20,13 @@
 // ```java
 // var nativeOrder = ByteOrder.nativeOrder();
 // var byteBuffer = ByteBuffer.allocateDirect(1024 * 4).order(nativeOrder);
-// for (var i = 0; i < 1024; i++) {
-//   byteBuffer.putInt(i * 4, 42);
+// try {
+//   for (var i = 0; i < 1024; i++) {
+//     byteBuffer.putInt(i * 4, 42);
+//   }
+// } finally {
+//   UNSAFE.invokeCleaner(byteBuffer);
 // }
-// unsafe.invokeCleaner(byteBuffer);
 // ```
 
 // ## ByteBuffer
@@ -34,11 +37,14 @@
 
 // ## Example of Unsafe
 // ```java
-// long unsafe_addr = unsafe.allocateMemory(1024 * 4);
-// for (var i = 0; i < 1024; i++) {
-//   unsafe.putInt(unsafe_addr + (i * 4) , 42);
+// long unsafe_addr = UNSAFE.allocateMemory(1024 * 4);
+// try {
+//   for (var i = 0; i < 1024; i++) {
+//     UNSAFE.putInt(unsafe_addr + (i * 4) , 42);
+//   }
+// } finally {
+//   UNSAFE.freeMemory(unsafe_addr);
 // }
-// unsafe.freeMemory(unsafe_addr);
 // ```
 
 // ## Unsafe
@@ -306,6 +312,102 @@ try (var segment = MemorySegment.allocateNative(layout1)) {
   bHandle.set(base, 7, (byte)42);
   System.out.println(aHandle.get(base) + " " + bHandle.get(base, 7));
 }
+
+// # Performance
+
+// # Perf: Read 8192 bytes as ints
+// Loop only, constant memory
+
+// with a `intHandle`
+// ```java
+// for (var i = 0; i < 1024; i++) {
+//   SINK = (int)INT_HANDLE.get(BASE.offset(i * 4));
+// }
+// ```
+
+// with a `intArrayHandle`
+// ```java
+// for (var i = 0; i < 1024; i++) {
+//   SINK = (int)INT_ARRAY_HANDLE.get(BASE, (long) i);
+// }
+// ```
+
+// ## Perf: Read 8192 bytes as ints
+// Loop only, constant memory
+
+// | Benchmark             | Score   | Error    | Units |
+// | --------------------- | ------- | -------- | ----- |
+// |bytebuffer             |  11.919 | ±  0.046 | ns/op |
+// |segment_intArrayHandle |   0.576 | ±  0.013 | ns/op |
+// |segment_intHandle      | 593.806 | ±  1.697 | ns/op |
+// |unsafe_noclean         |   0.462 | ±  0.022 | ns/op |
+
+// ## Perf: Read 8192 bytes as ints (2)
+// Creation + loop
+
+// with a `intArrayHandle`
+// ```java
+// try(var segment = MemorySegment.allocateNative(8192)) {
+//   var base = segment.baseAddress();
+//   for (var i = 0; i < 1024; i++) {
+//     SINK = (int)INT_ARRAY_HANDLE.get(base, (long) i);
+//   }
+// }
+// ```
+
+// ## Perf: Read 8192 bytes as ints (2)
+// Creation + loop
+
+// | Benchmark             | Score   | Error    | Units |
+// | --------------------- | ------- | -------- | ----- |
+// |bytebuffer             | 447.982 | ± 14.309 | ns/op |
+// |segment_intArrayHandle | 379.379 | ±  5.325 | ns/op |
+// |segment_intHandle      |1010.428 | ± 26.654 | ns/op |
+// |unsafe_clean           | 356.976 | ± 10.554 | ns/op |
+// |unsafe_noclean         |  94.211 | ±  0.249 | ns/op |
+
+// ## Perf: Write 8192 bytes as ints
+// loop only, constant memory
+
+// with a `intArrayHandle`
+// ```java
+// for (var i = 0; i < 1024; i++) {
+//   INT_ARRAY_HANDLE.set(BASE, (long) i, 42);
+// }
+// ```
+
+// ## Pref: Write 8192 bytes as ints
+// Loop only, constant memory
+
+// | Benchmark             | Score   | Error    | Units |
+// | --------------------- | ------- | -------- | ----- |
+// |bytebuffer             |  37.467 | ±  0.323 | ns/op |
+// |segment_intArrayHandle |  32.235 | ±  0.276 | ns/op |
+// |segment_intHandle      | 544.011 | ± 17.242 | ns/op |
+// |unsafe_noclean         | 249.486 | ±  7.173 | ns/op |
+
+// ## Perf: Write 8192 bytes as ints (2)
+// Creation + loop
+
+// ```java
+// try(var segment = MemorySegment.allocateNative(8192)) {
+//   var base = segment.baseAddress();
+//   for (var i = 0; i < 1024; i++) {
+//     INT_ARRAY_HANDLE.set(base, (long) i, 42);
+//   }
+// }
+// ```
+
+// ## Write 8192 bytes as ints (2)
+// creation + loop
+
+// | Benchmark             |  Score  | Error    | Units |
+// | --------------------- | ------- | -------- | ----- |
+// |bytebuffer             | 473.377 | ±  2.261 | ns/op |
+// |segment_intArrayHandle | 414.514 | ±  1.010 | ns/op |
+// |segment_intHandle      | 805.126 | ± 21.460 | ns/op |
+// |unsafe_clean           | 598.735 | ± 23.234 | ns/op |
+// |unsafe_noclean         | 328.945 | ±  1.568 | ns/op |
 
 
 // # Missing methods ??
