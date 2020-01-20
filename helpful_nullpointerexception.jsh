@@ -122,6 +122,4 @@ class A {
 A a = null;
 a.new B();
 
-// ## `Objects.requireNonNull()`
-
-// All those cases need a little more love :)
+// # All those cases need a little more love :)
