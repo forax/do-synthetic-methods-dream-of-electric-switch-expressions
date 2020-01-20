@@ -34,8 +34,8 @@ var bladeRunner2 = new Movie("Blade Runner 2049", 2017);
 System.out.println(bladeRunner.title());
 System.out.println(bladeRunner2.releaseDate());
 
-> More opinionated
-> beans are evil because they skip constructor
+// > More opinionated
+// > beans are evil because they skip constructor
 
 // ## Record components are not modifiable
 // Record components are implicitly final
