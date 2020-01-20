@@ -3,12 +3,14 @@ Slides for DevoxxFR 2020
 
 ## Content
 
-0. [foreign_memory_api.ipynb](slideshow/foreign_memory_api.ipynb)
-1. [instanceof.ipynb](slideshow/instanceof.ipynb)
-2. [record.ipynb](slideshow/record.ipynb)
-3. [sealed_types.ipynb](slideshow/sealed_types.ipynb)
-4. [switch_expression.ipynb](slideshow/switch_expression.ipynb)
-5. [toward_pattern_matching.ipynb](slideshow/toward_pattern_matching.ipynb)
+1. [toward_pattern_matching.ipynb](slideshow/chapter01-toward_pattern_matching.ipynb)
+2. [switch_expression.ipynb](slideshow/chapter02-switch_expression.ipynb)
+3. [record.ipynb](slideshow/chapter03-record.ipynb)
+4. [instanceof.ipynb](slideshow/chapter04-instanceof.ipynb)
+5. [sealed_types.ipynb](slideshow/chapter05-sealed_types.ipynb)
+6. [helpful_nullpointerexception.ipynb](slideshow/chapter06-helpful_nullpointerexception.ipynb)
+7. [foreign_memory_api.ipynb](slideshow/chapter07-foreign_memory_api.ipynb)
+
 
 ## Using Jupyter notebook with RISE
 

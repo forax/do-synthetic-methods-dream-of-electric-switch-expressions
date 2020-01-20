@@ -27,8 +27,8 @@
 //   - selead type (preview)
 
 // ## Features
-// - [switch expression](switch_expression.ipynb)
-// - [record](record.ipynb)
-// - [instanceof](instanceof.ipynb)
+// - [switch expression](chapter02-switch_expression.ipynb)
+// - [record](chapter03-record.ipynb)
+// - [instanceof](chapter04-instanceof.ipynb)
 // - [sealed types](sealed_types.ipynb)
 
