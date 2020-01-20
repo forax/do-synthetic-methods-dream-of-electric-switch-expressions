@@ -1,6 +1,7 @@
 {
     "argv": [
         "java",
+        "-XX:+ShowCodeDetailsInExceptionMessages",
         "--enable-preview",
         "--add-modules",
         "jdk.incubator.foreign",
