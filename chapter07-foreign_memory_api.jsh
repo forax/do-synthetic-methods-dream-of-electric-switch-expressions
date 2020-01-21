@@ -30,9 +30,9 @@
 // ```
 
 // ## ByteBuffer
-// - very IO buffer oriented
+// - API IO buffer oriented
 // - fast
-// - releasing direct memory issue
+// - can not release direct memory explicitly
 // - use int for index (2G limit)
 
 // ## Example of Unsafe
@@ -48,8 +48,6 @@
 // ```
 
 // ## Unsafe
-// - 2 modes
-//   - direct / indirect
 // - Really unsafe !
 //   - crash
 //   - buffer overflow
@@ -59,12 +57,13 @@
 
 // ## Need a third API ?
 // - Unsafe replacement
+//   - 100% safe and fast
 // - More low level than ByteBuffer
 //   - keep ByteBuffer fast but solve the deallocation issue
 // - Panama (new C <-> Java bridge)
-//   - model structured data 
-//   - nice with small data structure
-// - 100% safe !
+//   - support struct, array of structs, etc 
+//   - nice with small data structures
+
 
 // ## Foreign Memory API
 
@@ -110,14 +109,14 @@ segment.close();
 System.out.println(segment.asByteBuffer());
 
 // ## Temporally Bounded (3)
-// A _try-with-resources_ make the syntax cleaner
+// A _try-with-resources_ is safer and the syntax cleaner
 try (var segment = MemorySegment.allocateNative(8192)) {
   System.out.println(segment.isAlive());
   System.out.println(segment);
 } // the memory is released
 
 // ## Spatially Bounded
-// You can not access to outside the bounds of the segment
+// You can only access the memory inside the bounds of the segment
 try (var segment = MemorySegment.allocateNative(8192)) {
   var buffer = segment.asByteBuffer();
   var indexTooBig = 8192;
@@ -136,8 +135,7 @@ try (var segment = MemorySegment.allocateNative(8192)) {
 }
 
 // ## Thread Bounded (2)
-// A thread can ask explicitly using `acquire()` to share the segment
-// An acquired segment must be closed before the segment can be closed.
+// A thread can ask explicitly to access the segment using `acquire()`.
 try (var segment = MemorySegment.allocateNative(8192)) {
   var thread = new Thread(() -> {
     try(var acquiredSegment = segment.acquire()) {
@@ -149,6 +147,18 @@ try (var segment = MemorySegment.allocateNative(8192)) {
 }
 
 // > Sharing segments may lead to concurrency issues
+
+// ## Thread Bounded (3)
+// An acquired segment must be closed before the segment can be closed.
+try (var segment = MemorySegment.allocateNative(8192)) {
+  var thread = new Thread(() -> {
+    var acquiredSegment = segment.acquire();
+    var buffer = acquiredSegment.asByteBuffer();
+    // no close !
+  });
+  thread.start();
+  thread.join();
+}
 
 // ## Memory Segment - Summary
 // - Thread Bounded
@@ -177,10 +187,13 @@ try (var segment = MemorySegment.allocateNative(8192)) {
 
 // ## VarHandle
 // A class representing how of access to a value
-// - primitive type (and array of them)
+// - primitive, struct, array
 // - byte order (`java.nio.ByteOrder`)
 // - alignment
 // - semantics (plain, volatile, opaque)
+
+// ## VarHandle (2)
+// A class representing how of access to a value
 import java.nio.ByteOrder;
 var nativeOrder = ByteOrder.nativeOrder();
 System.out.println(nativeOrder);
@@ -202,13 +215,19 @@ try (var segment = MemorySegment.allocateNative(8192)) {
 var intHandle = MemoryHandles.varHandle(int.class, nativeOrder);
 System.out.println(intHandle);
 
+// - using an offset (access a member of a struct)
+var intHandle = MemoryHandles.varHandle(int.class, nativeOrder);
+var structHandle = MemoryHandles.withOffset(intHandle, 8);
+System.out.println(structHandle);
+
+// ## VarHandle Addressing mode (2)
 // - using an array mode:
 //   `handle.get(MemoryAddress, long)`
 var intHandle = MemoryHandles.varHandle(int.class, nativeOrder);
 var intArrayHandle = MemoryHandles.withStride(intHandle, 4);
 System.out.println(intArrayHandle);
 
-// ## Get/set an array of `int`s  
+// ## Get/set an array of `int`s  using an array handle
 try (var segment = MemorySegment.allocateNative(8192)) {
   var base = segment.baseAddress().offset(32);
   for (var i = 0 ; i < 128 ; i++) {
@@ -217,7 +236,7 @@ try (var segment = MemorySegment.allocateNative(8192)) {
   System.out.println(intArrayHandle.get(base, 64));
 }
 
-// ## Without using a VarHandle with a stride
+// ## Get/set an array of `int`s  using a direct handle
 // Maybe slower because the _stride_ is not hoisted
 // out of the loop
 try (var segment = MemorySegment.allocateNative(8192)) {
@@ -231,8 +250,6 @@ try (var segment = MemorySegment.allocateNative(8192)) {
 // ## MemoryAddress and VarHandle
 // - MemoryAddress is an offset in the segment
 // - VarHandle specifies the addressing mode
-
-// > VarHandle can also specifies an _offset_ and multiple array _dimensions_
 
 
 // # MemoryLayout
@@ -282,7 +299,7 @@ var layout2 = ofSequence(
 System.out.println(layout2);
 
 // ## VarHandle from a MemoryLayout
-// Using a `PathElement` (`groupElement` or `sequenceElement`) to locate
+// Using a `PathElement.` (`groupElement` or `sequenceElement`) to locate
 // a field or an array inside a layout 
 import static jdk.incubator.foreign.MemoryLayout.PathElement.*;
 var aHandle = layout1.varHandle(int.class, groupElement("a"));
@@ -326,6 +343,9 @@ try (var segment = MemorySegment.allocateNative(layout1)) {
 // }
 // blackhole.consume(sum);
 // ```
+
+// # Perf: Read 8192 bytes as ints
+// Loop only, constant memory
 
 // with a `intArrayHandle`
 // ```java
@@ -429,7 +449,6 @@ MemoryLayout withElementCounts(MemoryLayout layout, Iterator<Integer> counts) {
     return seq.name().map(result::withName).orElse(result);
   }
   if (layout instanceof GroupLayout group) {
-    if (group.isUnion()) { throw new UnsupportedOperationException(); }
     var result = ofStruct(group.memberLayouts().stream().map(l -> withElementCounts(l, counts)).toArray(MemoryLayout[]::new)).withBitAlignment(group.bitAlignment());
     return group.name().map(result::withName).orElse(result);
   }
