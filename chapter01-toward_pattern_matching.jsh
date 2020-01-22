@@ -15,8 +15,6 @@
 //   - instanceof (preview)
 
 // ## Java Releases
-// - Java 12: March 2019
-// - Java 13: September 2019
 // - Java 14: March 2020
 //   - switch expression (release)
 //   - record (preview)
@@ -27,12 +25,9 @@
 //   - selead type (preview)
 
 // ## Features
-// Java
 // - [Switch Expression](chapter02-switch_expression.ipynb)
 // - [Record](chapter03-record.ipynb)
 // - [Instanceof](chapter04-instanceof.ipynb)
 // - [Sealed Types](chapter05-sealed_types.ipynb)
-
-// VM and API
 // - [Helpful NPE](chapter06-helpful_nullpointerexception.ipynb)
 // - [Foreign Mamory API](chapter07-foreign_memory_api.ipynb)
