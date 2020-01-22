@@ -27,8 +27,12 @@
 //   - selead type (preview)
 
 // ## Features
-// - [switch expression](chapter02-switch_expression.ipynb)
-// - [record](chapter03-record.ipynb)
-// - [instanceof](chapter04-instanceof.ipynb)
-// - [sealed types](sealed_types.ipynb)
+// Java
+// - [Switch Expression](chapter02-switch_expression.ipynb)
+// - [Record](chapter03-record.ipynb)
+// - [Instanceof](chapter04-instanceof.ipynb)
+// - [Sealed Types](chapter05-sealed_types.ipynb)
 
+// VM and API
+// - [Helpful NPE](chapter06-helpful_nullpointerexception.ipynb)
+// - [Foreign Mamory API](chapter07-foreign_memory_api.ipynb)
