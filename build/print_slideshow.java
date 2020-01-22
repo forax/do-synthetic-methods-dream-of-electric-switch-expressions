@@ -38,7 +38,7 @@ public class print_slideshow {
     
     Files.createDirectories(OUTPUT_FOLDER);
     try(var list = Files.list(INPUT_FOLDER)) {
-      for(var path: (Iterable<Path>)list::iterator) {
+      for(var path: (Iterable<Path>)list.filter(p -> p.toString().endsWith(".ipynb"))::iterator) {   
         var inputURI = URI.create("http://localhost:8888/notebooks/" + path.toString());
         var shortName = shortName(path.getFileName().toString());
         var outputPath = OUTPUT_FOLDER.resolve(removeExtension(shortName) + ".pdf");
