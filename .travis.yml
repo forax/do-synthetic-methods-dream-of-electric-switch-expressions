@@ -18,4 +18,5 @@ install:
   - jupyter notebook --NotebookApp.token=''
 
 script:
-  - `npm bin`/decktape rise --load-pause 1000 --pause 200 http://localhost:8888/notebooks/slideshow/chapter03-record.ipynb record.pdf
+  - npm bin
+  - node_modules/.bin/decktape rise --load-pause 1000 --pause 200 http://localhost:8888/notebooks/slideshow/chapter03-record.ipynb record.pdf
