@@ -1,25 +1,18 @@
 sudo: true
 
-language: java
-jdk: openjdk-ea
+services:
+  - docker
 
 env:
   - IJAVA_COMPILER_OPTS="--enable-preview --source=15 --add-modules jdk.incubator.foreign"
 
 before_install:
-  - sudo apt-get install -y python3-pip npm
-  - sudo pip3 install --upgrade pip
-  - sudo pip3 install --no-cache-dir jupyter RISE
-  - wget https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip
-  - mv ijava-1.3.0.zip ijava-kernel.zip
-  - unzip ijava-kernel.zip -d ijava-kernel
-  - cp docker/kernel.json ijava-kernel/java
-  - cd ijava-kernel
-  - sudo python3 install.py --sys-prefix
+  - sudo install npm
+  - docker pull forax/do-synthetic-methods-dream-of-electric-switch-expressions
+  - docker run -d -p 8888:8888 forax/do-synthetic-methods-dream-of-electric-switch-expressions
 
 install:
   - npm install decktape
-  - jupyter notebook --NotebookApp.token='' &
 
 script:
   - npm bin
