@@ -1,12 +1,12 @@
 sudo: true
-language: node_js
 
 services:
   - docker
 
 before_install:
   - sudo apt-get install npm
-  - docker pull forax/do-synthetic-methods-dream-of-electric-switch-expressions
+  - docker build -f docker/Dockerfile -t forax/do-synthetic-methods-dream-of-electric-switch-expressions .
+#  - docker pull forax/do-synthetic-methods-dream-of-electric-switch-expressions
   - docker run -d -p 8888:8888 forax/do-synthetic-methods-dream-of-electric-switch-expressions jupyter notebook --no-browser --ip 0.0.0.0 --NotebookApp.token="" 
 
 install:
