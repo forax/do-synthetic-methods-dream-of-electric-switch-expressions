@@ -8,8 +8,7 @@ RUN apt-get install -y python3-pip
 COPY . .
 RUN ([ -f docker/requirements.txt ] \
     && pip3 install --no-cache-dir -r docker/requirements.txt) \
-        || pip3 install --no-cache-dir jupyter
-        && pip3 install --no-cache-dir RISE
+        || pip3 install --no-cache-dir jupyter RISE
 
 USER root
 
