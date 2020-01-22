@@ -420,6 +420,30 @@ System.out.println(replicate(deckard));
 // - can convert any list of values to a record and vice-versa 
 
 
+// # Record and Annotation
+
+// ## Annotations
+// Record component Annotations are automatically propagated to the members (where applicable)
+record Bed(int pillows, @Deprecated boolean kingSize) { }
+
+System.out.println(List.of(Bed.class.getRecordComponents()[1].getAnnotations()));
+System.out.println(List.of(Bed.class.getConstructor(int.class, boolean.class).getParameterAnnotations()[1]));
+System.out.println(List.of(Bed.class.getMethod("kingSize").getAnnotations()));
+System.out.println(List.of(Bed.class.getDeclaredField("kingSize").getAnnotations()));
+
+// ## New annotation Target element
+// Record components can be target of annotations
+
+// ```
+// @Target(ElementType.RECORD_COMPONENT)
+// @interface Action {
+//   ...
+// }
+// ```
+
+// > Bug ! @Deprecated target should list the element type `RECORD_COMPONENT`
+
+
 // # Record and Serialization
 
 // ## Implements `Serializable`
