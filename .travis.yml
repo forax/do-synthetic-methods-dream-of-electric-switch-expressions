@@ -9,7 +9,7 @@ env:
 before_install:
   - sudo apt-get install npm
   - docker pull forax/do-synthetic-methods-dream-of-electric-switch-expressions
-  - docker run -d -p 8888:8888 forax/do-synthetic-methods-dream-of-electric-switch-expressions jupyter notebook -ip 0.0.0.0 --NotebookApp.token=''
+  - docker run -d -p 8888:8888 forax/do-synthetic-methods-dream-of-electric-switch-expressions jupyter notebook --NotebookApp.token=''
 
 install:
   - npm install decktape
