@@ -31,6 +31,7 @@ public class print_slideshow {
     var OUTPUT_FOLDER = Path.of("pdf");
     
     var PLUGIN = "rise";
+    var PLUGIN_SIZE = "1920x1080";
     var PLUGIN_LOAD_PAUSE = "1000";
     var PLUGIN_PAUSE = "200";
     
@@ -50,6 +51,7 @@ public class print_slideshow {
         
         var proccess = new ProcessBuilder(command.toString(),
             PLUGIN,
+            "--size", PLUGIN_SIZE,
             "--load-pause", PLUGIN_LOAD_PAUSE,
             "--pause", PLUGIN_PAUSE,
             inputURI.toString(),
