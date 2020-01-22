@@ -202,6 +202,13 @@ class build {
     return (builder == null)? text: builder.toString();
   }
   
+  private static String removeLastEscapedNewLine(String text) {
+    if (text.endsWith("\\n\"]")) {
+      return text.substring(0, text.length() - "\\n\"]".length()) + "\"]";
+    }
+    return text;
+  }
+  
   static void writeJupyter(List<String> lines, Path to) throws IOException {
     var builder = new TextBuilder();
     transformTo(lines, new EventHandler() {
@@ -322,7 +329,7 @@ class build {
               "source": %s
             }
             """,
-            content.toString()));
+            removeLastEscapedNewLine(content.toString())));
         content = null;
       }
       
