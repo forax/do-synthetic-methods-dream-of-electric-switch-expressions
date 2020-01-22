@@ -1,8 +1,11 @@
+import static java.util.Comparator.comparing;
+
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
 
 public class print_slideshow {
   private static String removeExtension(String filename) {
@@ -38,7 +41,7 @@ public class print_slideshow {
     
     Files.createDirectories(OUTPUT_FOLDER);
     try(var list = Files.list(INPUT_FOLDER)) {
-      for(var path: (Iterable<Path>)list.filter(p -> p.toString().endsWith(".ipynb"))::iterator) {   
+      for(var path: (Iterable<Path>)list.filter(p -> p.toString().endsWith(".ipynb")).sorted(comparing(Path::toString))::iterator) {   
         var inputURI = URI.create("http://localhost:8888/notebooks/" + path.toString());
         var shortName = shortName(path.getFileName().toString());
         var outputPath = OUTPUT_FOLDER.resolve(removeExtension(shortName) + ".pdf");
