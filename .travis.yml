@@ -1,21 +1,24 @@
+sudo: true
+
 language: java
 jdk: openjdk-ea
 
 env:
   - IJAVA_COMPILER_OPTS="--enable-preview --source=15 --add-modules jdk.incubator.foreign"
 
-install:
-  - apt-get install -y python3-pip npm
-  - pip3 install --no-cache-dir -r docker/requirements.txt
+before_install:
+  - sudo apt-get install -y python3-pip npm
+  - sudo pip3 install --no-cache-dir -r docker/requirements.txt
   - wget https://github.com/SpencerPark/IJava/releases/download/v1.3.0/ijava-1.3.0.zip
   - mv ijava-1.3.0.zip ijava-kernel.zip
   - unzip ijava-kernel.zip -d ijava-kernel
   - cp docker/kernel.json ijava-kernel/java
   - cd ijava-kernel
-  - python3 install.py
-  - cd ..
+  - sudo python3 install.py --sys-prefix
+
+install:
   - npm install decktape
-  - jupyter notebook --NotebookApp.token=''
+  - jupyter notebook --NotebookApp.token='' &
 
 script:
   - npm bin
