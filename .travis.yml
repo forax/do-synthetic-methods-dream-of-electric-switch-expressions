@@ -7,12 +7,12 @@ env:
   - IJAVA_COMPILER_OPTS="--enable-preview --source=15 --add-modules jdk.incubator.foreign"
 
 before_install:
-  - sudo install npm
+  - sudo apt-get install npm
   - docker pull forax/do-synthetic-methods-dream-of-electric-switch-expressions
   - docker run -d -p 8888:8888 forax/do-synthetic-methods-dream-of-electric-switch-expressions
 
 install:
-  - npm apt-get install decktape
+  - npm install decktape
 
 script:
   - npm bin
