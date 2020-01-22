@@ -18,3 +18,13 @@ install:
 script:
   - npm bin
   - java build/print_slideshow.java
+
+deploy:
+  provider: releases
+  api_key:
+    secure: iy/FplvQp08+Is3izRk+bgGmV4vWbpJWOa3wABjLgxPLCyCZRRve9CF9gvAgfmdf/Q5k+DaUXNtfcztbltzAAa2uE6tfKWcdGS70RziDN2Q7+s1KHDtOoIl3YzIdezfSC2FVo+3wLPK36oDElr0AnJCXfhq5kUJhI0xvcRS73hxmLLH206Mf/fYTIzDp3WGHk6qgGgpKll7HdpMBspAmzjQxXwsUDu+wPOmuHdpPlsYbSSt20/+FW+Jylr7Tlm0Nk/puYQ3WrUeOpFej7TQHUQaGc2fGSBvAg9YMr2HW7duXxVinJ2zZyXOR1TuFAYqkqVYcY/dGsw+HZXHd6Pt4tHRljOg5nm1ZPdqLCf03fP6ZdGcB6uCfYRS2eapXCnh0vynMek+qSRwjnCOHXrWRKfjPnoFGIs08DBauMZjzMcPHBylvXAckT63rp2kVxJ4FULMAd93Y/BxbU13H88bmVyowlRNBiblLGtpZxDOcmm49tYQ95x1uH2EbxbFDrVO5WcPWpDnl3UUxCcmXdll6UdB9ov/53wXY6go0MHyRiJ7l7f3z8DrPaK7Uarabe8moBryzmXLoIDJog6oIFwXTDQeig4WwfDJId/hu2d5JebwpCunkerrHOF2c77bWC/KPpnamQqWsFedNcY0a4Bh2hm6CtK+isEcbwPjkgGCIOWk=
+  file_glob: true
+  file: pdf/*
+  skip_cleanup: true
+  on:
+    tags: true
