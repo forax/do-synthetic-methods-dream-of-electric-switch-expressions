@@ -3,13 +3,10 @@ sudo: true
 services:
   - docker
 
-env:
-  - IJAVA_COMPILER_OPTS="--enable-preview --source=15 --add-modules jdk.incubator.foreign"
-
 before_install:
   - sudo apt-get install npm
   - docker pull forax/do-synthetic-methods-dream-of-electric-switch-expressions
-  - docker run -p 8888:8888 forax/do-synthetic-methods-dream-of-electric-switch-expressions jupyter notebook --NotebookApp.token="" --no-browser
+  - docker run -p 8888:8888 forax/do-synthetic-methods-dream-of-electric-switch-expressions jupyter notebook --no-browser -ip 0.0.0.0 --NotebookApp.token="" 
 
 install:
   - npm install decktape
