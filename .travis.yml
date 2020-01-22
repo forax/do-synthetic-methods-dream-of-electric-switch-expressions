@@ -1,5 +1,8 @@
 sudo: true
 
+language: java
+jdk: openjdk11
+
 services:
   - docker
 
@@ -14,4 +17,4 @@ install:
 
 script:
   - npm bin
-  - node_modules/.bin/decktape rise --load-pause 1000 --pause 200 http://localhost:8888/notebooks/slideshow/chapter03-record.ipynb record.pdf
+  - java build/print_slideshow.java
