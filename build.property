@@ -1,9 +1,6 @@
 # Configuation of build.java
 # 1. generate files
 # generate=x,y,z with x, y or z among markdown, notebook and slideshow
-# 2. choose a header and a footer (optional)
-# header = a file containing the header
-# footer = a file containing the footer 
 # 2. choose to generate an index (optional)
 # index=x with x among markdown, notebook and slideshow
 # 3. customize folders
