@@ -24,7 +24,7 @@
 //   - instanceof (preview 2)
 //   - selead type (preview)
 
-// ## Features
+// ## Features of Java 14
 // - [Record](chapter03-record.ipynb)
 // - [Switch Expression](chapter02-switch_expression.ipynb)
 // - [Instanceof](chapter04-instanceof.ipynb)
