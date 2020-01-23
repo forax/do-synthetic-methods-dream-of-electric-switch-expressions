@@ -38,8 +38,8 @@ record Author(String name) {
 // Declare a variable available if the `instanceof` is true
 record Author(String name) {
   public boolean equals(Object o) {
-    return o instanceof Author author &&
-      name.equals(author.name);
+    return o instanceof Author author
+      && name.equals(author.name);
   }
 }
 var author = new Author("bob");

@@ -4,6 +4,8 @@
 
 // # Records
 
+// # ![Killer Bean](images/killer-bean.jpg)
+
 // ## Design forces
 // - we need to see any object fields to do pattern matching on them
 // - get ride of bean model ?
@@ -34,8 +36,7 @@ var bladeRunner2 = new Movie("Blade Runner 2049", 2017);
 System.out.println(bladeRunner.title());
 System.out.println(bladeRunner2.releaseDate());
 
-// > More opinionated
-// > beans are evil because they skip constructor
+// > Beans are evil because they skip constructors
 
 // ## Record components are not modifiable
 // Record components are implicitly final
@@ -57,6 +58,8 @@ System.out.println("hello again !");
 
 
 // # Record Constructor
+
+// # ![Killer Bean Love](images/killer-bean-love.jpg)
 
 // ## Record canonical constructor
 // You can define your own constructor
@@ -81,6 +84,13 @@ record BadExchange(String name, int employees) {
   }
 }
 
+// ## Limitation of the canonical constructor
+// The canonical constructor have to be `public`
+record BadExchange(String name, int employees) {
+  /*public*/ BadExchange(String name, int employees) { 
+  }
+}
+
 // ## Record compact constructor
 // Field assignments is done by the compiler
 record Exchange(String name, int employees) {
@@ -93,13 +103,6 @@ record Exchange(String name, int employees) {
 }
 var exchange = new Exchange("Bitcoin Ponzi", 2);
 System.out.println(exchange);
-
-// ## Limitation of the canonical constructor
-// The canonical constructor have to be `public`
-record BadExchange(String name, int employees) {
-  /*public*/ BadExchange { 
-  }
-}
 
 // ## Limitation of constructors
 // Other constructors must delegate to another constructor
@@ -148,6 +151,8 @@ System.out.println(fp.equals(fp2));
 
 // # Record and Inheritance
 
+// # ![Killer Bean Love](images/killer-bean-star.jpg)
+
 // ## java.lang.Record
 // Records implicitly inherits from java.lang.Record
 record Painter(String name, String painting) { }
@@ -185,6 +190,8 @@ System.out.println(famous.name());
 
 
 // # Record and Immutability
+
+// # ![Killer Bean Love](images/killer-bean-surrounded.jpg)
 
 // ## Record unmodifiable vs Immutable
 // Records are unmodifiable, not immutable !
@@ -293,6 +300,8 @@ System.out.println(user1);
 
 // # Nested and Local Record
 
+// # ![Killer Bean Locked](images/killer-bean-locked.jpg)
+
 // ## Nested record
 // Records are always static (like enums)
 class Person {
@@ -354,15 +363,17 @@ class Enclosing {
 
 // ## Local Class rules
 // Rules for local class/enum/record are a mess
-// - local class can always access (effectively) local variables
-// - static local class are not allowed
-// - local enum are not allowed
-// - local record are allowed but can not access local variables
+// - local classes can always access (effectively) local variables
+// - static local classes are not allowed
+// - local enums are not allowed
+// - local records are allowed but can not access local variables
 
 // > ahh, too many crufty rules, need a cleanup !  
 
 
 // # Record Reflection API
+
+// # ![Killer Bean Serious](images/killer-bean-serious.jpg)
 
 // ## Is a record ?
 // At runtine, a record knows it is a Record
@@ -414,14 +425,6 @@ Object replicate(Record record) throws Exception {
 }
 System.out.println(replicate(deckard));
 
-// ## Record Reflection API
-// A record is fully aware of itself
-// - get record components (name, type and accessor)
-// - can convert any list of values to a record and vice-versa 
-
-
-// # Record and Annotation
-
 // ## Annotations
 // Record component Annotations are automatically propagated to the members (where applicable)
 record Bed(int pillows, @Deprecated boolean kingSize) { }
@@ -443,8 +446,16 @@ System.out.println(List.of(Bed.class.getDeclaredField("kingSize").getAnnotations
 
 // > Bug ! @Deprecated target should list the element type `RECORD_COMPONENT`
 
+// ## Record Reflection & Annotation
+// A record is fully aware of itself
+// - get record components (name, type and accessor)
+// - can convert any list of values to a record and vice-versa 
+// - annotations on record components are propagated
+
 
 // # Record and Serialization
+
+// # ![Killer Bean Glasses](images/killer-bean-glasses.jpg)
 
 // ## Implements `Serializable`
 // Records use a builtin serialization implementation
@@ -467,4 +478,6 @@ System.out.println(replicated);
 // - validation during deserialization
 // - harder to create fake data
 
-// > We need a better deserialization mechanism for classes
+// > We should do the same for classes
+
+// # ![Killer Bean End](images/killer-bean-end.jpg)

@@ -338,8 +338,8 @@ try (var segment = MemorySegment.allocateNative(layout1)) {
 // with a `intHandle`
 // ```java
 // var sum = 0;
-//  for (var i = 0; i < 1024; i++) {
-//    sum += (int)INT_HANDLE.get(BASE.addOffset(i * 4));
+// for (var i = 0; i < 1024; i++) {
+//   sum += (int)INT_HANDLE.get(BASE.addOffset(i * 4));
 // }
 // blackhole.consume(sum);
 // ```
