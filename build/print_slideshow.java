@@ -5,7 +5,6 @@ import java.lang.ProcessBuilder.Redirect;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Comparator;
 
 public class print_slideshow {
   private static String removeExtension(String filename) {
