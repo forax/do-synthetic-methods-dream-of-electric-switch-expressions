@@ -131,8 +131,51 @@ var author = new Author("bob");
 var author2 = new Author("bob");
 System.out.println(author.equals(author2));
 
+
+// # Future
+
+// ## Pattern matching + Destructuring
+// Extract record components automatically 
+
+// ```java
+// record Point(int x, int y) {
+//   public boolean equals(Object o) {
+//     return o instanceof Point(int x, int y)
+//       && this.x == x
+//       && this.y == y;
+//   }
+// }
+// ```
+
+// ## Destructuring + Inference
+// The type of the record components can be inferred
+
+// ```java
+// record Point(int x, int y) {
+//   public boolean equals(Object o) {
+//     return o instanceof Point(var x, var y)
+//       && this.x == x
+//       && this.y == y;
+//   }
+// }
+// ```
+
+// ## Use switch !
+// Use a switch instead of a cascade of `if` ... `else`
+
+// ```java
+// Number add(int v1, Number v2) {
+//   return switch(v2) {
+//     case Integer value -> v1 + value;
+//     case Double value -> v1 + value;
+//     default -> new IllegalArgumentException();
+//   };
+// }
+// ```
+
 // # Summary
+// - add Pattern matching to Java
 // - `instanceof` with a type test pattern
 // - introduce a new local variable
-// - doesn't work with `||`, works with `&&`
-// - works with `if` and `if`/`else`
+// - doesn't work with `||`
+// - works with `&&`, `if` and `if`/`else`

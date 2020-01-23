@@ -25,9 +25,8 @@
 //   - selead type (preview)
 
 // ## Features
-// - [Switch Expression](chapter02-switch_expression.ipynb)
 // - [Record](chapter03-record.ipynb)
+// - [Switch Expression](chapter02-switch_expression.ipynb)
 // - [Instanceof](chapter04-instanceof.ipynb)
-// - [Sealed Types](chapter05-sealed_types.ipynb)
 // - [Helpful NPE](chapter06-helpful_nullpointerexception.ipynb)
-// - [Foreign Mamory API](chapter07-foreign_memory_api.ipynb)
+// - [Foreign Memory API](chapter07-foreign_memory_api.ipynb)

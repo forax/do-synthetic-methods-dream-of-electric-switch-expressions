@@ -7,7 +7,7 @@
 // # Provide more context in the message of a NPE
 
 // ## Design forces
-// SAP JVM meaningfull error message for NPE since 2006
+// SAP JVM has meaningful error message for NPEs since 2006
 
 // It really helps
 //   - beginners
@@ -101,8 +101,8 @@ record Person(String name) {
 }
 new Person(null);
 
-// VM uses of the context inside `requireNonNull` and
-// not context where the `requireNonNull` is called.
+// In `requireNonNull!`, the NPE is created in user code
+// not by the VM
 
 // ## Implicit `requireNonNull()`
 // The compiler also insert a couple of `requireNonNull()`
@@ -113,7 +113,7 @@ switch(s) { }
 PrintStream out = null;
 Runnable r = out::println;
 
-// ## Implicit `requireNonNull()`
+// ## Implicit `requireNonNull()` (2)
 // The compiler inserts a `requireNonNull()` if the outer class is null
 class A {
   class B {
