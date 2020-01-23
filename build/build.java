@@ -9,6 +9,7 @@ import static java.util.stream.Collectors.toUnmodifiableSet;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -426,11 +427,11 @@ class build {
     }
   }
   
-  private static void generate(List<Path> paths, Generator<String> generator) throws IOException {
+  private static void generate(List<Path> paths, Page page, Generator<String> generator) throws IOException {
     for(var path: paths) {
       var rawFilename = removeExtension(path.getFileName().toString());
 
-      var lines = readAllLines(path);
+      var lines = page.lines(path);
       generator.generate(lines, rawFilename);
     }
   }
@@ -447,6 +448,32 @@ class build {
   private static List<Path> gatherFiles(Path directory, Predicate<String> filter) throws IOException {
     try(var list = Files.list(directory)) {
       return list.filter(path -> filter.test(path.toString())).sorted(Comparator.comparing(Path::toString)).collect(toList());
+    }
+  }
+  
+  private static /*record*/ class Page {
+    private final Path header;
+    private final Path footer;
+    
+    private Page(Optional<Path> header, Optional<Path> footer) {
+      this.header = header.orElse(null);
+      this.footer = footer.orElse(null);
+    }
+
+    List<String> lines(Path path) throws IOException {
+      var lines = readAllLines(path);
+      if (header == null && footer == null) {
+        return lines;
+      }
+      var content = new ArrayList<String>();
+      if (header != null) {
+        content.addAll(readAllLines(header));
+      }
+      content.addAll(lines);
+      if (footer != null) {
+        content.addAll(readAllLines(footer));
+      }
+      return content;
     }
   }
   
@@ -484,11 +511,15 @@ class build {
     
     private final Optional<Kind> index;
     private final Set<Kind> kinds; 
+    private final Optional<Path> header;
+    private final Optional<Path> footer;
     private final Map<Kind, Path> folderMap;
     
-    private Config(Optional<Kind> index, Set<Kind> kinds, Map<Kind, Path> folderMap) {
+    private Config(Optional<Kind> index, Set<Kind> kinds, Optional<Path> header, Optional<Path> footer, Map<Kind, Path> folderMap) {
       this.index = index;
       this.kinds = kinds;
+      this.header = header;
+      this.footer = footer;
       this.folderMap = folderMap;
     }
     
@@ -505,9 +536,11 @@ class build {
       var generate = getProperty(properties, "generate").orElseThrow(() -> { throw new IllegalStateException("no property generate found"); }); 
       var kinds = Arrays.stream(generate.split(",")).flatMap(name -> Kind.of(name).stream()).collect(toUnmodifiableSet());
       var index = getProperty(properties, "index").flatMap(Kind::of);
+      var header = getProperty(properties, "header").map(Path::of);
+      var footer = getProperty(properties, "footer").map(Path::of);
       var folderMap = Kind.NAME_MAP.values().stream().collect(toUnmodifiableMap(k -> k, k -> k.folder(properties)));
       
-      return new Config(index, kinds, folderMap);
+      return new Config(index, kinds, header, footer, folderMap);
     }
   }
   
@@ -524,7 +557,7 @@ class build {
 
     // gather files and generate    
     var files = gatherFiles(Path.of("."), name -> name.endsWith(".jsh"));
-    generate(files, generator);
+    generate(files, new Page(config.header, config.footer), generator);
     
     // generate index
     config.index.ifPresent(index -> generateIndex(files, config.folder(index), index.extension));
