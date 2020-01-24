@@ -82,7 +82,7 @@ import jdk.incubator.foreign.*;
 // So it may change depending on the Java version
 System.out.println("runtime version " + Runtime.version());
 
-// > make sure you are at least using Java 15
+// > make sure you are at least using Java 15-ea+7
 
 // # Memory Segment
 
@@ -173,7 +173,7 @@ try (var segment = MemorySegment.allocateNative(8192)) {
 try (var segment = MemorySegment.allocateNative(8192)) {
   var base = segment.baseAddress();
   System.out.println(base);
-  var newBase = base.offset(16);
+  var newBase = base.addOffset(16);
   System.out.println(newBase);
 }
 
@@ -205,15 +205,15 @@ System.out.println(intHandle);
 // ## Get/set one `int` at address 32  
 try (var segment = MemorySegment.allocateNative(8192)) {
   var base = segment.baseAddress();
-  intHandle.set(base.offset(32), 42);
-  System.out.println(intHandle.get(base.offset(32)));
+  intHandle.set(base.addOffset(32), 42);
+  System.out.println(intHandle.get(base.addOffset(32)));
 }
 
 // ## Set and alignment
 // You can not set a value if the address is not correctly aligned
 var longHandle = MemoryHandles.varHandle(long.class, nativeOrder);
 try(var segment = MemorySegment.allocateNative(8192)) {
-  longHandle.set(segment.baseAddress().offset(3), 0L);
+  longHandle.set(segment.baseAddress().addOffset(3), 0L);
 }
 
 // ## VarHandle Addressing mode
@@ -236,7 +236,7 @@ System.out.println(intArrayHandle);
 
 // ## Get/set an array of `int`s  using an array handle
 try (var segment = MemorySegment.allocateNative(8192)) {
-  var base = segment.baseAddress().offset(32);
+  var base = segment.baseAddress().addOffset(32);
   for (var i = 0 ; i < 128 ; i++) {
     intArrayHandle.set(base, i, 42);
   }
@@ -247,11 +247,11 @@ try (var segment = MemorySegment.allocateNative(8192)) {
 // Maybe slower because the _stride_ is not hoisted
 // out of the loop
 try (var segment = MemorySegment.allocateNative(8192)) {
-  var base = segment.baseAddress().offset(32);
+  var base = segment.baseAddress().addOffset(32);
   for (var i = 0 ; i < 128 ; i++) {
-    intHandle.set(base.offset(i * 4), 42);
+    intHandle.set(base.addOffset(i * 4), 42);
   }
-  System.out.println(intHandle.get(base.offset(64 * 4)));
+  System.out.println(intHandle.get(base.addOffset(64 * 4)));
 }
 
 // ## MemoryAddress and VarHandle
@@ -305,10 +305,30 @@ var layout2 = ofSequence(
 );
 System.out.println(layout2);
 
+// ## Operations on a MemoryLayout
+
+// `withElementCount()` change the dimension of a sequence
+System.out.println(layout2);
+System.out.println(layout2.withElementCount(1024));
+
+// ## Operations on a MemoryLayout (2)
+
+// Using a `PathElement`.`groupElement` to locate a field inside a layout and
+// `sequenceElement` to locate an item inside an array.
+import static jdk.incubator.foreign.MemoryLayout.PathElement.groupElement;
+import static jdk.incubator.foreign.MemoryLayout.PathElement.sequenceElement;
+
+// `map()` rewrite a field or an array
+System.out.println(layout1);
+var layout3 = layout1.map(l -> ((SequenceLayout)l).withElementCount(1024), groupElement("b"));
+System.out.println(layout3);
+
+
+// # From a MemoryLayout
+
 // ## VarHandle from a MemoryLayout
-// Using a `PathElement.` (`groupElement` or `sequenceElement`) to locate
-// a field or an array inside a layout 
-import static jdk.incubator.foreign.MemoryLayout.PathElement.*;
+// Create a VarHandle that access to a field of a struct
+System.out.println(layout1);
 var aHandle = layout1.varHandle(int.class, groupElement("a"));
 System.out.println(aHandle);
 
@@ -317,7 +337,8 @@ var aHandle = layout1.varHandle(long.class, groupElement("a"));
 System.out.println(aHandle);
 
 // ## VarHandle from MemoryLayout (2)
-// The VarHandle has a supplementary parameter if the array has a free dimension
+// Using a `PathElement`.`sequenceElement()` to locate a sequence inside a layout.
+// The VarHandle has a supplementary parameter if the array has one free dimension
 System.out.println(layout1);
 var bHandle = layout1.varHandle(byte.class, groupElement("b"), sequenceElement());
 System.out.println(bHandle);
@@ -325,6 +346,7 @@ System.out.println(bHandle);
 System.out.println(layout2);
 var xHandle = layout2.varHandle(double.class, sequenceElement(), groupElement("x"));
 System.out.println(xHandle);
+
 
 // ## A MemorySegment from a MemoryLayout
 // You can ask for a segment of the right size from a layout
