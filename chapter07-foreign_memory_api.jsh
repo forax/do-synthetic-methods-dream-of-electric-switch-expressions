@@ -209,6 +209,13 @@ try (var segment = MemorySegment.allocateNative(8192)) {
   System.out.println(intHandle.get(base.offset(32)));
 }
 
+// ## Set and alignment
+// You can not set a value if the address is not correctly aligned
+var longHandle = MemoryHandles.varHandle(long.class, nativeOrder);
+try(var segment = MemorySegment.allocateNative(8192)) {
+  longHandle.set(segment.baseAddress().offset(3), 0L);
+}
+
 // ## VarHandle Addressing mode
 // - using a direct mode
 //   `handle.get(MemoryAddress)`
