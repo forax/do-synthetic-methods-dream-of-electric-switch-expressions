@@ -1,7 +1,7 @@
 # Dockerfile for Jupyter Notebook
 FROM debian:buster
 
-RUN curl -L https://raw.githubusercontent.com/sormuras/bach/master/install-jdk.sh
+RUN wget https://raw.githubusercontent.com/sormuras/bach/master/install-jdk.sh
 RUN source ./install-jdk.sh
 
 RUN apt-get update
