@@ -34,6 +34,10 @@ record Author(String name) {
 // > The VM routinely removes it, so it's not present
 // > in the generated assembly code
 
+// # Type test Pattern
+
+// # ![Shanghai Blade Runner Style](images/blade-runner-shanghai.jpg)
+
 // ## Type test pattern 
 // Declare a variable available if the `instanceof` is true
 record Author(String name) {
@@ -72,6 +76,8 @@ System.out.println(add(3, 4.0));
 
 // # Type test pattern with `||` and `&&`
 
+// # ![Shenzen Blade Runner Style](images/blade-runner-shenzen.jpg)
+
 // ## Or-ing Type patterns with the same name
 // This fail because there is not union type in Java
 Number add(int v1, Number v2) {
@@ -104,6 +110,8 @@ System.out.println(plus(3, 4));
 
 // # Type test pattern with `if`, `if`/`else`
 
+// # ![China Blade Runner Style](images/blade-runner-china.jpg)
+
 // ## And with an `if`/`else`
 record Author(String name) {
   public boolean equals(Object o) {
@@ -133,6 +141,8 @@ System.out.println(author.equals(author2));
 
 
 // # Future
+
+// # ![Blade Runner 2049 Ad](images/blade-runner-ad.jpg)
 
 // ## Pattern matching + Destructuring
 // Extract record components automatically 

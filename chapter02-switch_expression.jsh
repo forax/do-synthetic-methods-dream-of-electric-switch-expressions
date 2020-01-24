@@ -4,6 +4,8 @@
 
 // # Switch Expression
 
+// # ![Rick Deckard](images/blade-runner-rick-deckard.jpg)
+
 // ## Design forces
 // - enhance switch to be an expression
 // - fix C switch warts ?
@@ -81,6 +83,8 @@ void color(String vehicle) {
 color("sedan");
 
 // # Arrow syntax
+
+// # ![K](images/blade-runner-2049.jpg)
 
 // ## Introduce a new syntax
 // - avoid fallthrough: use curly braces
@@ -163,6 +167,8 @@ color("sedan");
 
 // # Switch expression
 
+// # ![Humanity 2.0](images/blade-runner-humanity2.jpg)
+
 // ## Allows switch to have a value
 // 
 void color(String vehicle) {
@@ -236,6 +242,8 @@ void color(String vehicle) {
 
 // # Expression switch and `default`
 
+// # ![Deckard 2.0](images/blade-runner-2049-deckard.jpg)
+
 // ## `default` is required if not exhaustive
 // The example below doesn't compile !
 void color(String vehicle) {
@@ -280,4 +288,6 @@ void color(Vehicle vehicle) {
   };
   System.out.println(color);
 }
+
+// # ![Blade Runner Unicorn](images/blade-runner-unicorn.jpg)
 
