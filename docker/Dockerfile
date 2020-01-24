@@ -1,5 +1,8 @@
 # Dockerfile for Jupyter Notebook
-FROM openjdk:15-ea-6-jdk-buster
+FROM debian:buster
+
+RUN curl -L https://raw.githubusercontent.com/sormuras/bach/master/install-jdk.sh
+RUN source ./install-jdk.sh
 
 RUN apt-get update
 RUN apt-get install -y python3-pip
