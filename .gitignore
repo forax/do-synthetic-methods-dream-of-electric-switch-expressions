@@ -25,3 +25,4 @@ hs_err_pid*
 # exclude IntelliJ config files
 /do-synthetic-methods-dream-of-electric-switch-expressions.eml
 /do-synthetic-methods-dream-of-electric-switch-expressions.iml
+/.idea/
