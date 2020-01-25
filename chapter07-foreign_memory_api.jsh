@@ -313,8 +313,8 @@ System.out.println(layout2.withElementCount(1024));
 
 // ## Operations on a MemoryLayout (2)
 
-// Using a `PathElement`.`groupElement` to locate a field inside a layout and
-// `sequenceElement` to locate an item inside an array.
+// Using a `PathElement`.`groupElement` to locate a field inside a struct and
+// `sequenceElement` to locate an item inside a sequence.
 import static jdk.incubator.foreign.MemoryLayout.PathElement.groupElement;
 import static jdk.incubator.foreign.MemoryLayout.PathElement.sequenceElement;
 
