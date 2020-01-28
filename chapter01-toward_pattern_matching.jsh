@@ -32,3 +32,4 @@
 // - [Instanceof](chapter04-instanceof.ipynb)
 // - [Helpful NPE](chapter06-helpful_nullpointerexception.ipynb)
 // - [Foreign Memory API](chapter07-foreign_memory_api.ipynb)
+// - [Text Block](chapter07-text_block.ipynb)
