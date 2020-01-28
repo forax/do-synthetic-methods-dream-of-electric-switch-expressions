@@ -112,7 +112,7 @@ System.out.println("""
    );
 
 // ## `stripIndent()`
-// Remove the indentation !
+// This is the method used to remove the indentation by the compiler
 System.out.println("""
      SELECT *
      FROM users
@@ -121,6 +121,7 @@ System.out.println("""
      .stripIndent()
    );
 
+// > Not very useful if you are a developer
 
 // # String interpolation ?
 
