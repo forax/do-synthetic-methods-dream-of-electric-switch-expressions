@@ -76,28 +76,6 @@ System.out.println("""
   .lines().mapToInt(String::length).forEach(System.out::println);
 
 
-// # Indentation
-
-// ## `indent()`
-// Allow to specify the number of white spaces
-System.out.println("""
-   SELECT *
-   FROM users
-   WHERE login == Bob
-   """
-     .indent(8)
-   );
-
-// ## `stripIndent()`
-// Remove the indentation !
-System.out.println("""
-       SELECT *
-       FROM users
-       WHERE login == Bob
-   """
-     .stripIndent()
-   );
-
 // # Escaping
 
 // ## Not a raw String !
@@ -119,6 +97,30 @@ System.out.println("""
    WHERE login == Bob \
    """
    );
+
+
+// # Indentation
+
+// ## `indent()`
+// Allow to specify the number of white spaces
+System.out.println("""
+   SELECT *
+   FROM users
+   WHERE login == Bob
+   """
+     .indent(8)
+   );
+
+// ## `stripIndent()`
+// Remove the indentation !
+System.out.println("""
+     SELECT *
+     FROM users
+     WHERE login == Bob\
+   """
+     .stripIndent()
+   );
+
 
 // # String interpolation ?
 
