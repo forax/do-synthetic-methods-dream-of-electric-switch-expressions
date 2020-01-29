@@ -202,7 +202,7 @@ books.add(new Book("Lord of the ring"));
 var library = new Library(books);
 System.out.println(library);
 
-// can still mutate books
+// can still mutate `books`
 books.remove(new Book("Lord of the ring"));
 System.out.println(library);
 
@@ -230,8 +230,7 @@ record Library(List<Book> books) {
     books = new ArrayList<>(books);
   }
 }
-var books = new ArrayList<Book>();
-books.add(new Book("Lord of the ring"));
+var books = List.of(new Book("Lord of the ring"));
 var library = new Library(books);
 System.out.println(library);
 
@@ -249,8 +248,7 @@ record Library(List<Book> books) {
     return Collections.unmodifiableList(books);
   }
 }
-var books = new ArrayList<Book>();
-books.add(new Book("Lord of the ring"));
+var books = List.of(new Book("Lord of the ring"));
 var library = new Library(books);
 System.out.println(library);
 
@@ -264,38 +262,17 @@ record Library(List<Book> books) {
     books = List.copyOf(books);
   }
 }
-var books = new ArrayList<Book>();
-books.add(new Book("Lord of the ring"));
+var books = List.of(new Book("Lord of the ring"));
 var library = new Library(books);
 System.out.println(library);
 
 library.books().remove(new Book("Lord of the ring"));
 System.out.println(library);
 
-// ## Record and arrays
-// Arrays are always modifiable, so same issue
-record User(String login, char[] password) {
-  public User {
-    login = Objects.requireNonNull(login);
-    password = password.clone();
-  }
-  public char[] password() { return "*".repeat(password.length).toCharArray(); }
-  public boolean equals(Object o) {
-    return o instanceof User user && login.equals(user.login) && Arrays.equals(password, user.password);
-  }
-  public int hashCode() { return Objects.hash(login, Arrays.hashCode(password)); }
-  public String toString() { return "User " + login + " " + "*".repeat(password.length); }
-}
-var user1 = new User("bob", "df15cb4e019ec2eac654fb2e486c56df285c8c7b".toCharArray());
-var user2 = new User("bob", "df15cb4e019ec2eac654fb2e486c56df285c8c7b".toCharArray());
-System.out.println(user1.equals(user2));
-System.out.println(user1.hashCode() == user2.hashCode());
-System.out.println(user1);
-
 // ## Unmodifiable/Immutable record
 // Records are only unmodifiable
 // - may require more code to make them immutable
-// - List.of() / List.copyOf() may help !
+// - `List.of()` / `List.copyOf()` may help !
 
 
 // # Nested and Local Record
