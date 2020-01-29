@@ -7,10 +7,10 @@ Slides for DevoxxFR 2020
 1. [switch_expression.ipynb](slideshow/chapter02-switch_expression.ipynb)
 2. [record.ipynb](slideshow/chapter03-record.ipynb)
 3. [instanceof.ipynb](slideshow/chapter04-instanceof.ipynb)
-4. [sealed_types.ipynb](slideshow/chapter05-sealed_types.ipynb)
-5. [helpful_nullpointerexception.ipynb](slideshow/chapter06-helpful_nullpointerexception.ipynb)
-6. [foreign_memory_api.ipynb](slideshow/chapter07-foreign_memory_api.ipynb)
-7. [text-block.ipynb](slideshow/chapter08-text-block.ipynb)
+4. [helpful_nullpointerexception.ipynb](slideshow/chapter06-helpful_nullpointerexception.ipynb)
+5. [foreign_memory_api.ipynb](slideshow/chapter07-foreign_memory_api.ipynb)
+6. [text-block.ipynb](slideshow/chapter08-text-block.ipynb)
+7. [future.ipynb](slideshow/chapter09-future.ipynb)
 
 
 ## Using Jupyter notebook with RISE
