@@ -144,33 +144,7 @@ System.out.println(author.equals(author2));
 
 // # ![Blade Runner 2049 Ad](images/blade-runner-ad.jpg)
 
-// ## Pattern matching + Destructuring
-// Extract record components automatically 
-
-// ```java
-// record Point(int x, int y) {
-//   public boolean equals(Object o) {
-//     return o instanceof Point(int x, int y)
-//       && this.x == x
-//       && this.y == y;
-//   }
-// }
-// ```
-
-// ## Destructuring + Inference
-// The type of the record components can be inferred
-
-// ```java
-// record Point(int x, int y) {
-//   public boolean equals(Object o) {
-//     return o instanceof Point(var x, var y)
-//       && this.x == x
-//       && this.y == y;
-//   }
-// }
-// ```
-
-// ## Use switch !
+// ## Use with switch !
 // Use a switch instead of a cascade of `if` ... `else`
 
 // ```java
