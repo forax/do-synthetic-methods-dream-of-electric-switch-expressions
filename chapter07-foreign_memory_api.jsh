@@ -209,8 +209,8 @@ try (var segment = MemorySegment.allocateNative(8192)) {
   System.out.println(intHandle.get(base.addOffset(32)));
 }
 
-// ## Set and alignment
-// You can not set a value if the address is not correctly aligned
+// ## Access and alignment
+// You can not read/write a value if the address is not correctly aligned
 var longHandle = MemoryHandles.varHandle(long.class, nativeOrder);
 try(var segment = MemorySegment.allocateNative(8192)) {
   longHandle.set(segment.baseAddress().addOffset(3), 0L);
