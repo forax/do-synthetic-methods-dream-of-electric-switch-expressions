@@ -16,7 +16,7 @@ Slides for DevoxxFR 2020
 
 ## PDFs
 
-All chapters are available as PDFs in the [release section](releases/).
+All chapters are available as PDFs in the [release section](../../releases/).
 
 
 ## Using Jupyter notebook with RISE
