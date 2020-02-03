@@ -1,4 +1,5 @@
 # Do synthetic methods dream of electric switch expressions
+
 Slides for DevoxxFR 2020
 
 ## Content
@@ -11,6 +12,11 @@ Slides for DevoxxFR 2020
 5. [foreign_memory_api.ipynb](slideshow/chapter07-foreign_memory_api.ipynb)
 6. [text-block.ipynb](slideshow/chapter08-text-block.ipynb)
 7. [future.ipynb](slideshow/chapter09-future.ipynb)
+
+
+## PDFs
+
+All chapters are available as PDFs in the [release section](releases/).
 
 
 ## Using Jupyter notebook with RISE
