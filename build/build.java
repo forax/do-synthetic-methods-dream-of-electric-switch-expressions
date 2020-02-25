@@ -454,18 +454,7 @@ class build {
     }
   }
   
-  //private static record Config(Optional<Kind> index, Set<Kind> kinds, Map<Kind, Path> folderMap) {
-  /**/private static class Config {
-    private final Optional<Kind> index;
-    private final Set<Kind> kinds;
-    private final Map<Kind, Path> folderMap;
-    
-    private Config(Optional<Kind> index, Set<Kind> kinds, Map<Kind, Path> folderMap) {
-      this.index = index;
-      this.kinds = kinds;
-      this.folderMap = folderMap;
-    }/**/
-
+  private static record Config(Optional<Kind> index, Set<Kind> kinds, Map<Kind, Path> folderMap) {
     private enum Kind {
       MARKDOWN(".md", build::writeMarkDown),
       NOTEBOOK(".ipynb", build::writeJupyter),
