@@ -27,7 +27,7 @@ System.out.println("""
 
 // # Incidental white spaces
 
-// ## Block of Text
+// ## Text Block <=> a Block of Text
 // Acts as a box around the text
 // ```
 // |--------------------|
@@ -43,12 +43,12 @@ System.out.println("""
        SELECT *
        FROM users
        WHERE login == Bob
-   """
+   """.replace(' ', '.')
    );
 
 // ## Block of Text
 // By default, spaces on the right are removed,
-// so it's less pretty.
+// so it's more like
 // ```
 // |----------|
 // |  SELECT *|
@@ -63,17 +63,8 @@ System.out.println("""
      SELECT *           \s
      FROM users         \s
      WHERE login == Bob \s
-   """
+   """.replace(' ', '.')
    );
-   
-// ## Spaces on the right (2)
-// If we ask the length of each line
-"""
-  SELECT *           \s
-  FROM users         \s
-  WHERE login == Bob \s
-"""
-  .lines().mapToInt(String::length).forEach(System.out::println);
 
 
 // # Escaping
@@ -127,16 +118,15 @@ System.out.println("""
 
 // ## Formatted
 // String.formatted() allows interpolation
-// ```java
-// var login = "Bob";
-// System.out.println("""
-//     SELECT *
-//     FROM users
-//     WHERE login == %s
-//   """
-//     .formatted(login)
-//   );
-// ```
+// (same format as `printf`)
+var login = "Bob";
+System.out.println("""
+    SELECT *
+    FROM users
+    WHERE login == %s
+  """
+    .formatted(login)
+  );
 
 // ## Formatted
 var login = "Bob";
