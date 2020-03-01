@@ -95,19 +95,17 @@ record Bus(String owner) implements Vehicle { }
 // # Deconstruction
 
 // ## Deconstruction of instanceof
-// ```java
-// record Point(int x, int y) {
-//   public boolean equals(Object o) {
-//     return o instanceof Point p
-//       && x == p.x && y == p.y;
-//   }
-// }
-// ```
+
+record Point(int x, int y) {
+  public boolean equals(Object o) {
+    return o instanceof Point p
+      && x == p.x && y == p.y;
+  }
+}
 
 // > add a way to extract `x` and `y` directly when doing the `instanceof`
 
 // ## Deconstruction of instanceof
-// ```java
 // record Point(int x, int y) {
 //   public boolean equals(Object o) {
 //     return o instanceof Point(int x2, int y2)
