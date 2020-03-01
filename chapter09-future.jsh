@@ -132,7 +132,7 @@ record Point(int x, int y) {
 // ```java
 // record Car(String owner, String passenger, String color) {}
 // 
-// var car = ...
+// var car = new Car(...);
 // var owner = car.owner();
 // var color = car.color();
 // System.out.println(owner + " " + color);
@@ -142,7 +142,7 @@ record Point(int x, int y) {
 // ```java
 // record Car(String owner, String passenger, String color) {}
 // 
-// var car = ...
+// var car = new Car(...);
 // Car(String owner, String passenger, String color) = car;
 // System.out.println(owner + " " + color);
 // ```
@@ -152,7 +152,7 @@ record Point(int x, int y) {
 // ```java
 // record Car(String owner, String passenger, String color) {}
 // 
-// var car = ...
+// var car = new Car(...);
 // Car(var owner, _, var color) = car;
 // System.out.println(owner + " " + color);
 // ```
@@ -162,7 +162,7 @@ record Point(int x, int y) {
 // ```java
 // record Car(String owner, String passenger, String color) {}
 // 
-// var car = ...
+// var car = new Car(...);
 // (var owner, _, var color) = car;
 // System.out.println(owner + " " + color);
 // ```
@@ -172,11 +172,19 @@ record Point(int x, int y) {
 // i.e. being able to destructure itself
 // ```java
 // Map<String, Car> mapNameToCar = ...
-// for((var name, var car) : mapNameToCar.entrySet()) {
+// for(Map.Entry(var name, var car) : mapNameToCar.entrySet()) {
 //   System.out.println(name + " " + car);
 // }
 // ```
 
+// ## Inference in for loop
+// And without the type Map.Entry which can be inferred
+// ```java
+// Map<String, Car> mapNameToCar = ...
+// for((var name, var car) : mapNameToCar.entrySet()) {
+//   System.out.println(name + " " + car);
+// }
+// ```
 
 // # Deconstruction in switch
 
@@ -217,13 +225,14 @@ record Point(int x, int y) {
 
 // ## Kind of patterns
 // - __null pattern__ (`null`), match only `null`
-// - __type test pattern__ (`Foo`) match the type (not `null`)
+// - __type test pattern__ (`Foo foo`) match the type (not `null`)
+//   - __var test pattern__ (`var foo`) infer the type
+//   - __any test pattern__ (`_ foo`) don't introduce a variable
 // - __or pattern__ (`pattern1, pattern2`) match either one side or the other 
 // - __extraction pattern__ (`(..., pattern, ...)`) match a component
 // - __constant pattern__ (`123`) match the constant value
-// - __any pattern__ (`_`), match anything, even `null`
 
-// `var` is just inference, no special matching
+// `var` or `_` are just inference, no special matching
 
 // ## An example using constants !
 // ```java
