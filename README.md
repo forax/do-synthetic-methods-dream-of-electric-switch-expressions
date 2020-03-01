@@ -86,5 +86,5 @@ The jupyter files (.ipynb) are generated from the jshell files using a small Jav
 
 Using java 15
 ```
-  java --enable-preview build/build.java
+  java source 15 --enable-preview build/build.java
 ```
