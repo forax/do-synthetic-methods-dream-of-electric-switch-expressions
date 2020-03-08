@@ -103,9 +103,11 @@ record Point(int x, int y) {
   }
 }
 
-// > add a way to extract `x` and `y` directly when doing the `instanceof`
+// `x` and `y` are accessed explicitly
 
 // ## Deconstruction of instanceof
+// With a __destructuring pattern__
+// ```java
 // record Point(int x, int y) {
 //   public boolean equals(Object o) {
 //     return o instanceof Point(int x2, int y2)
@@ -113,6 +115,7 @@ record Point(int x, int y) {
 //   }
 // }
 // ```
+// > Extract `x` and `y` directly when doing the `instanceof`
 
 // ## With type inference
 // Allow to use `var` instead of declaring the type of the components
@@ -157,7 +160,9 @@ record Point(int x, int y) {
 // System.out.println(owner + " " + color);
 // ```
 
-// ## More inference
+// # Tuple ?
+
+// ## More inference (tuple)
 // Removing the name of the type which can be inferred too
 // ```java
 // record Car(String owner, String passenger, String color) {}
@@ -177,12 +182,39 @@ record Point(int x, int y) {
 // }
 // ```
 
-// ## Inference in for loop
+// ## Inference in for loop (tuple)
 // And without the type Map.Entry which can be inferred
 // ```java
 // Map<String, Car> mapNameToCar = ...
 // for((var name, var car) : mapNameToCar.entrySet()) {
 //   System.out.println(name + " " + car);
+// }
+// ```
+
+// ## Inference at creation
+record Result<T>(T value, int index) { }
+<T> Result<T> find(java.util.function.Predicate<? super T> predicate, T... values) {
+  for(var i = 0; i < values.length; i++) {
+    var value = values[i];
+    if (predicate.test(value)) {
+      return new Result(value, i);
+    }
+  }
+  return null;
+}
+System.out.println(find("bar"::equals, "foo", "bar", "baz"));
+
+// ## Inference at creation (tuple)
+// ```java
+// record Result<T>(T value, int index) { }
+// <T> Result<T> find(java.util.function.Predicate<? super T> predicate, T... values) {
+//   for(var i = 0; i < values.length; i++) {
+//     var value = values[i];
+//     if (predicate.test(value)) {
+//       return (value, i);
+//     }
+//   }
+//   return null;
 // }
 // ```
 
