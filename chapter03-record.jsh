@@ -75,7 +75,7 @@ record Exchange(String name, int employees) {
 var exchange = new Exchange("Bitcoin Ponzi", 1);
 System.out.println(exchange);
 
-// ## Record canonical constructor
+// ## Limitations of the constructor
 // The parameter names has to match the component names
 record BadExchange(String name, int employees) {
   public BadExchange(String pname, int pemployees) {
@@ -84,7 +84,14 @@ record BadExchange(String name, int employees) {
   }
 }
 
-// ## Limitation of the canonical constructor
+// ## Limitations of the canonical constructor
+// The canonical constructor can not throw checked exceptions
+record BadExchange(String name, int employees) {
+  public BadExchange(String name, int employees) throws Exception { 
+  }
+}
+
+// ## Limitations of the canonical constructor
 // The canonical constructor have to be `public`
 record BadExchange(String name, int employees) {
   /*public*/ BadExchange(String name, int employees) { 
@@ -104,7 +111,7 @@ record Exchange(String name, int employees) {
 var exchange = new Exchange("Bitcoin Ponzi", 2);
 System.out.println(exchange);
 
-// ## Limitation of constructors
+// ## Limitations of constructors
 // Other constructors must delegate to another constructor
 record BadExchange(String name, int employees) {
   BadExchange(String name) {
@@ -113,7 +120,7 @@ record BadExchange(String name, int employees) {
   }
 }
 
-// ## Limitation of constructors (2)
+// ## Limitations of constructors (2)
 // Other constructors must delegate to another constructor
 record Exchange(String name, int employees) {
   Exchange(String name) {
