@@ -15,7 +15,7 @@
 
 // ## Example
 void printFirst(List<String> list) {
-  System.out.println(list.get(0).length());
+  System.out.println(list.get(1).length());
 }
 
 // When you have several `.` on the same line, it's not obvious
@@ -23,9 +23,9 @@ void printFirst(List<String> list) {
 
 // ## Meaningful NPE error message
 void printFirst(List<String> list) {
-  System.out.println(list.get(0).length());
+  System.out.println(list.get(1).length());
 }
-printFirst(Arrays.asList(null));
+printFirst(Arrays.asList("foo", null, "bar"));
 
 // ## Java 14 / Java 15
 // For Java 14, this feature is under the flag
