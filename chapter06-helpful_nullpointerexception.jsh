@@ -25,7 +25,7 @@ void printFirst(List<String> list) {
 void printFirst(List<String> list) {
   System.out.println(list.get(0).length());
 }
-printFirst(List.of(null));
+printFirst(Arrays.asList(null));
 
 // ## Java 14 / Java 15
 // For Java 14, this feature is under the flag
