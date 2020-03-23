@@ -1,5 +1,5 @@
 # Dockerfile for Jupyter Notebook
-FROM openjdk:15-ea-14-jdk-buster
+FROM openjdk:15-ea-15-jdk-buster
 
 RUN apt-get update
 RUN apt-get install -y python3-pip
