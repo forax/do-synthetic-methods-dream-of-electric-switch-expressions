@@ -74,7 +74,7 @@ record Bus(String owner) implements Vehicle { }
 // The clause `permits` is inferred if everything in the same compilation unit
 // ```java
 // sealed interface Vehicle {} 
-//   // inferrred permits Car, Bus
+//   // inferred permits Car, Bus
 // record Car(String owner, String passenger, String color) implements Vehicle { }
 // record Bus(String owner) implements Vehicle { }
 // ```
