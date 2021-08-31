@@ -3,7 +3,7 @@
 Slides for DevoxxFR 2021
 
 ## Content
-0. [devoxx.html](reveal/devoxx.html)
+0. [devoxx.html](https://htmlpreview.github.io/?https://github.com/forax/do-synthetic-methods-dream-of-electric-switch-expressions/blob/master/reveal/devoxx.html)
 
 ## To checks that all code examples are valid
 Using Java 17
@@ -11,7 +11,7 @@ Using Java 17
   jshell --enable-preview *.jsh
 ```
 
-## to generate the slides in the reveal folder
+## To generate the slides in the reveal folder
 Using Java 17
 ```
   java build/build.java
