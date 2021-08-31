@@ -19,7 +19,6 @@ import java.util.StringJoiner;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("preview")
 class build {
   final static class TextBuilder {
     private final StringBuilder builder = new StringBuilder();
@@ -171,6 +170,81 @@ class build {
       @Override
       public void line(LineKind kind, String line) {
         builder.append(line);
+      }
+    });
+    writeString(to, builder.toString());
+  }
+
+  static void writeReveal(List<String> lines, Path to) throws IOException {
+    var builder = new TextBuilder();
+    transformTo(lines, new EventHandler() {
+      @Override
+      public void startDocument() {
+        builder.append("""
+            <!doctype html>
+            <html>
+            	<head>
+            		<meta charset="utf-8">
+            		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+                        
+            		<title>reveal.js</title>
+                        
+            		<link rel="stylesheet" href="dist/reset.css">
+            		<link rel="stylesheet" href="dist/reveal.css">
+            		<link rel="stylesheet" href="dist/theme/black.css">
+                        
+            		<!-- Theme used for syntax highlighted code -->
+            		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+            	</head>
+            	<body>
+            		<div class="reveal">
+            			<div class="slides">
+            				<section data-markdown>
+                              <textarea data-template>
+            """);
+      }
+      @Override
+      public void startCode() {
+        builder.append("```java");
+      }
+      @Override
+      public void endCode() {
+        builder.append("```");
+      }
+      @Override
+      public void line(LineKind kind, String line) {
+        builder.append(line);
+      }
+      @Override
+      public void endSection() {
+        builder.append("---");
+      }
+      @Override
+      public void endDocument() {
+        builder.append("""
+                              </textarea>
+            				</section>
+            			</div>
+            		</div>
+                        
+            		<script src="dist/reveal.js"></script>
+            		<script src="plugin/notes/notes.js"></script>
+            		<script src="plugin/markdown/markdown.js"></script>
+            		<script src="plugin/highlight/highlight.js"></script>
+            		<script>
+            			// More info about initialization & config:
+            			// - https://revealjs.com/initialization/
+            			// - https://revealjs.com/config/
+            			Reveal.initialize({
+            				hash: true,
+                        
+            				// Learn about plugins: https://revealjs.com/plugins/
+            				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            			});
+            		</script>
+            	</body>
+            </html>
+            """);
       }
     });
     writeString(to, builder.toString());
@@ -457,6 +531,7 @@ class build {
   private static record Config(Optional<Kind> index, Set<Kind> kinds, Map<Kind, Path> folderMap) {
     private enum Kind {
       MARKDOWN(".md", build::writeMarkDown),
+      REVEAL(".html", build::writeReveal),
       NOTEBOOK(".ipynb", build::writeJupyter),
       SLIDESHOW(".ipynb", build::writeJupyterSlideshow),
       ;
@@ -471,7 +546,7 @@ class build {
       private final String extension;
       private final Generator<Path> generator;
       
-      private Kind(String extension, Generator<Path> generator) {
+      Kind(String extension, Generator<Path> generator) {
         this.propertyName = name().toLowerCase();
         this.extension = extension;
         this.generator = generator;
