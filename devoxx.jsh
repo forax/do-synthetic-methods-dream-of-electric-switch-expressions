@@ -30,9 +30,7 @@
 // ## Lambdas
 // Functional interface + lambda + type inference
 
-import java.io.IOException;
-import java.util.Objects;
-import java.util.Optional;Runnable code = () -> {
+Runnable code = () -> {
    System.out.println("hello");
 };
 Comparator<String> cmp =
@@ -266,10 +264,12 @@ record Person(String name, int age) {
 
 // ## Constructor and checked exception
 // a constructor can not throw a checked exception
-record Person(String name, int age) {
-//public Person(String name, int age) throws IOException { ...}
-//}  // does not compile !
-}
+// ```java
+// record Person(String name, int age) {
+//   public Person(String name, int age) throws IOException { ...}
+//   }  // does not compile !
+// }
+// ```
 
 // ## No inheritance
 // a record can not inherit a class
@@ -349,7 +349,7 @@ sealed interface Component {
 
 // # pattern matching
 
-// ## The expression problem
+// ## Expression problem
 // a classical hierarchy allows adding new subtypes but no other operation
 interface Vehicle {
   int computeTax();
@@ -361,7 +361,9 @@ record Car() implements Vehicle {
   public int computeTax() { return 6; }
 }
 
-// ## The expression problem (2)
+// (if you are not the maintainer of the code)
+
+// ## Expression problem (2)
 // a sealed hierarchy allows adding new operations but no other subtype
 sealed interface Vehicle permits Bus, Car { }
 record Bus() implements Vehicle { }
@@ -374,38 +376,354 @@ int computeTax(Vehicle vehicle) {
   };
 }
 
-// ## switch
-//  - arrow switch (fix error of the past)
-//  - yield
-//  - switch expression
-//  - switch on type
-//  - guards
-//  - instanceof
-//  - class vs type
-//  - future:
-//  - syntaxe pour les tableaux
-//  - deconstruction pour les records
-//  - deconstructeur pour les classes
-//  - destructuration de l'assignation
+// (if you are not the maintainer of the code)
 
-// ## pattern Matching: Under the hood ?
-//  - arrow switch: same code
-//  - switch expression: 1 supplementary local variable
-//  - switch on type : invokedynamic
-//  - guard (index + goto/loop)
+// ## Pattern Matching
+// - Allow __users__ of existing types to specify new operations
+// - Ease __maintenance__ by showing the whole algorithm in one place
 
-// ## Beau Graphique
-// - Interface / Annotation
-// - Class / Enum / Lambda / Record
+// Not new, this is the Visitor Pattern
 
-// ## Future
+// ## Pattern Matching (2)
+// BUT the hierarchy MUST be sealed and only works
+// - if the types are not visible (or NEVER change)
+// - if they are versioned data
+
+// ## How to introduce Pattern Matching in Java ?
+// - fix the switch
+// - add a variant that works with expressions
+// - add different patterns
+// - deal with encapsulation ?
+
+// ## The good old switch
+// The switch in C is alien to C
+int seats = 3;
+String type;
+switch(seats) {
+  case 1:
+    type = "small";
+    break;
+  case 2:
+  case 3:
+    int s = seats;
+    type = "medium " + s;
+    break;
+  default:
+    //String s = "debug";
+    //System.out.println(s);
+    type = "big";
+}
+System.out.println(type);
+
+// ## Fix the switch
+// reuse the lambda syntax
+// (retcon: the lambda syntax uses the arrow switch syntax)
+
+// - fix fallthrough, use a block if more than one instruction
+// - need an OR operator between the values (use ",")
+// - fix weird scope, one scope per case
+
+// ## Arrow switch
+int seats = 3;
+String type;
+switch(seats) {
+  case 1 -> type = "small";
+  case 2, 3 -> {
+    int s = seats;
+    type = "medium " + s;
+  }
+  default -> {
+    String s = "debug";
+    System.out.println(s);
+    type = "big";
+  }
+}
+System.out.println(type);
+
+// ## switch expression
+// the compiler verifies that "type" is initialized for each branch,
+// would be more readable to allow the switch to "return" a value
+
+// But we can not use the keyword __return__
+
+// ## switch expression (2)
+var seats = 3;
+var type = switch(seats) {
+  case 1 -> "small";
+  case 2, 3 -> {
+    var s = seats;
+    yield "medium " + s;
+  }
+  default -> {
+    var s = "debug";
+    System.out.println(s);
+    yield "big";
+  }
+};  // <-- don't forget the semicolon !
+System.out.println(type);
+
+// # instanceof type pattern
+
+// ## instanceof with a type pattern
+// instanceof is enhanced to support a type pattern
+Object fileref = Path.of("path/to/foo.txt");
+if (fileref instanceof Path path) {
+  System.out.println(path.getFileName());
+}
+
+// ## instanceof + generics
+// the corresponding cast must be safe
+Collection<String> list = List.of("foo");
+if (list instanceof List<?> list) { }  // ok
+if (list instanceof List<String> list) { }  // ok
+//if (list instanceof List<Integer> list) { }  // error
+
+// ## instanceof & not ("!")
+// a weird case supported because it's a common idiom
+record Foo(String s) {
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Foo foo)) {
+      return false;
+    }
+    // can access to foo here !
+    return s.equals(foo.s);
+  }
+}
+
+// ## instanceof & not ("!")
+// but it can be written in a better way
+record Foo(String s) {
+  @Override
+  public boolean equals(Object o) {
+    return o instanceof Foo foo && s.equals(foo.s);
+  }
+}
+
+// # switch on types
+
+// ## switch on types
+// extends the switch to any type
+Object fileref = Path.of("path/to/foo.txt");
+switch(fileref) {
+  case Path path -> System.out.println(path.getFileName());
+  case File file -> System.out.println(file.getName());
+  default -> System.out.println("default !");
+}
+
+// a __default__ is needed because all possible types are not covered
+
+// ## switch on type
+// is semantically equivalent to a cascade of if instanceof + else
+Object fileref = Path.of("path/to/foo.txt");
+if (fileref instanceof Path path) {
+  System.out.println(path.getFileName());
+} else if (fileref instanceof File file) {
+  System.out.println(file.getName());
+} else {
+  System.out.println("default !");
+}
+
+// ## order of the type patterns
+// goes from the most specific to the less specific
+Object fileref = Path.of("path/to/foo.txt");
+switch(fileref) {
+  case Path path -> System.out.println(path.getFileName());
+  case Object o -> System.out.println("Object !");
+}
+
+// like the catchs of a try/catch
+
+// ## Type Pattern & null
+// by default, a switch throws a NPE on null
+// ```java
+// Object fileref = null;
+// switch(fileref) {  // throw a NPE
+//   ...
+// }
+// ```
+
+// ## Capturing null
+// - case __null__
+  switch(fileref) {
+    case null -> System.out.println("null !");
+    default -> System.out.println("not null");
+  }
+// - total pattern
+  Object fileref = null;
+  switch(fileref) {
+    case Object o -> System.out.println("object !");
+  }
+
+// ## Exhaustive
+// if all cases are covered, __default__/total pattern is not necessary
+sealed interface Cake permits Cookie {}
+record Cookie(boolean chunky) implements Cake {}
+
+Cake cake = new Cookie(false);
+switch(cake) {
+  case Cookie cookie -> System.out.println("get a cookie !");
+  // no default required
+}
+
+// ## Patterns
+// switch recognize the following patterns
+// - type pattern
+//   - String s
+//   - var s  (Java 18)
+// - guard pattern
+//   - _pattern_ && _boolean_condition_
+// - parenthesis pattern
+//   - ( _pattern_ )
+
+// ## guards
+// && introduces guards
+sealed interface Cake permits Cookie {}
+record Cookie(boolean chunky) implements Cake {}
+
+var good = switch(cake) {
+  case Cookie cookie && cookie.chunky() -> true;
+  case Cookie cookie -> false;
+};
+
+// # pattern Matching: Under the hood !
+
+// ## old C switch
+boolean result;
+switch (3) {
+  case 0:
+  case 1:
+    result = true;
+    break;
+  default:
+    result = false;
+    break;
+}
+
+// ## arrow switch
+boolean result;
+switch(3) {
+  case 0, 1 -> result = true;
+  default -> result = false;
+}
+
+// ## in bytecode, same code
+// ```
+//  0: iconst_3
+//  1: lookupswitch  { // 2
+//    0: 28
+//    1: 28
+//    default: 33
+//  }
+// 28: iconst_1
+// 29: istore_0
+// 30: goto          35
+// 33: iconst_0
+// 34: istore_0
+// ```
+
+// ## switch expression
+var result = switch (3) {
+  case 0, 1 -> true;
+  default -> false;
+};
+
+// ## in bytecode, slightly more efficient
+// ```
+//  0: iconst_3
+//  1: lookupswitch  { // 2
+//    0: 28
+//    1: 28
+//    default: 32
+//  }
+// 28: iconst_1
+// 29: goto          33
+// 32: iconst_0
+// 33: istore_0
+// ```
+
+// ## switch on type : invokedynamic
+var result = switch((Object) 3) {
+  case Integer i -> true;
+  case String s -> false;
+  default -> false;
+};
+
+// ## decompiled by IntelliJ (almost)
+// ```java
+// Integer var10000 = 3;
+// Objects.requireNonNull(var10000);
+// boolean var5;
+// switch(typeSwitch<invokedynamic>(var10000, 0)) {
+//   case 0:
+//     Integer var3 = (Integer) var1;
+//     var5 = true;
+//     break;
+//   case 1:
+//     String var4 = (String) var1;
+//     var5 = false;
+//     break;
+//   default:
+//     var5 = false;
+// }
+// ```
+
+// ## swich on types + guard
+var result = switch((Integer) 3) {
+  case Integer i && i == 0 -> true;
+  case Integer i -> false;
+};
+
+// ## decompiled by IntelliJ
+// ```java
+// Integer var1 = 3;
+// int idx = 0;
+// boolean var10000;
+// label15: while(true) {  // WTF !
+//   switch(typeSwitch<invokedynamic>(var1, idx)) {
+//   case -1: default:
+//     var10000 = false;
+//     break label15;
+//   case 0:
+//     if (var1 == 0) {
+//       var10000 = true; break label15;
+//     }
+//     idx = 1;
+//   }
+// }
+// ```
+
+// # Future ...
+
+// ## Future Patterns (Java 18)
+// - record pattern
+//   - Point(int x, int y) ->  // record with 2 components
+// - array pattern
+//   - String[] { var s, var t } ->  // array of length 2
+//   - Point[] { var p, ... } ->  // array of length >= 1
+
+// ## Future ?
+// - destructuring assignment
+// ```java
+// Point(var x, var y) = point;
+// ```
+// - de-constructor, allow pattern on classes
+// ```java
+// class Point {
+//   private int x;
+//   private int y;
+//   ...
+//   (int a, int b) deconstructor() {
+//     return (x, y);
+//   }
+// }
+// ```
+
+// ## Other OpenJDK projects
 //  - Loom: Java 19 ?
-//    - support other OSes (continuations are hidden)
+//    - support other OSes (and continuations are hidden)
 //  - Panama
 //    - Vector(SIMD) API / Foreign Memory / Foreign Linker
 //  - Valhalla
 //    - Primitive class + Parametric VM
 //  - CRaC
-
-
-
