@@ -30,7 +30,8 @@
 // ## Lambdas
 // Functional interface + lambda + type inference
 
-Runnable code = () -> {
+import java.io.Serializable;
+import java.util.Objects;Runnable code = () -> {
    System.out.println("hello");
 };
 Comparator<String> cmp =
@@ -236,7 +237,7 @@ record Person(String name, int age) {
 
 // ## Canonical constructor
 // the compiler generate a constructor to initialize all
-// the component
+// the components
 record Person(String name, int age) {
   public Person(String name, int age) {
     this.name = Objects.requireNonNull(name);
@@ -255,15 +256,15 @@ record Person(String name, int age) {
 // the compiler assigns the parameters to the fields automatically
 
 // ## Other Constructors
-// another constructor must delegate to the canonical constructor
+// other constructors must delegate to the canonical constructor
 record Person(String name, int age) {
-  public Person(int age) throws IOException {
+  public Person(int age) {
     this("unnamed", age);  // delegation
   }
 }
 
 // ## Constructor and checked exception
-// a constructor can not throw a checked exception
+// the canonical constructor can not throw a checked exception
 // ```java
 // record Person(String name, int age) {
 //   public Person(String name, int age) throws IOException { ...}
@@ -273,14 +274,19 @@ record Person(String name, int age) {
 
 // ## No inheritance
 // a record can not inherit a class
-//record Foo() extends java.util.Date {}
-//does not compile !
+// ```java
+// record Foo() extends java.util.Date {
+//   // does not compile !
+// }
+// ```
 
 // ## java.lang.Record
-// a record always extends java.lang.Record
+// a record always __extends__ java.lang.Record
+
 // (like an enum with java.lang.Enum)
 
 // ## Member / Local record
+// can declare a record inside a class or a method
 class Foo {
   record Point(int x, int y) {}  // implicitly static
   public void bar() {
@@ -290,24 +296,40 @@ class Foo {
 }
 
 // ## annotation on component
-// Annotation on component are propagated to the field and accessor
-// depending on the annotation target
+// Annotation on a component are propagated to the corresponding field
+// and accessor  depending on the annotation target
 record Person(@Override String name, int age) {}
 
 // @Override is propagated to the accessor but not to the field
 
 // ## serialization
-// All records are serializable/deserializable automatically if
-// all their components is serializable
+// a record is serializable/deserializable automatically if
+// - it implements Serializable
+// - all the components are serializable
 
-// record can be a nice serialization proxy
+// the canonical constructor is called when deserialization (yai !)
+
+// ## records as serialization proxies
+class Foo implements Serializable {
+  private String s;
+  public Foo(String s) { this.s = Objects.requireNonNull(s); }
+  private Object writeReplace() {
+    return new FooProxy(s);
+  }
+  private record FooProxy(String s) implements Serializable {
+    private Object readResolve() {
+      return new Foo(s);
+    }
+  }
+}
+
 
 // # Sealed Types
 // ## Sealed types ??
-// __final__ forbids inheritance but there _was_ no mechanism to list
-// all possible subtypes
+// __final__ forbids inheritance but there _was_ no mechanism to restrict
+// the set of subtypes
 
-// __sealed__ types have a __permits__ clause thet list all permitted
+// __sealed__ types have a __permits__ clause that list all permitted
 // direct subtypes
 
 // ## Sealed interface
@@ -326,7 +348,8 @@ record Add<T>(T left, T right) implements Expr<T> {}
 
 // ## Empty permits
 // empty __permits__ clause is forbidden
-// because __final__ should be used instead
+
+// __final__ should be used instead
 
 // ## inference
 // if all subtypes are in the same compilation unit,
@@ -335,6 +358,8 @@ sealed interface Paiment {  // no permits clause
   record CreditCard() implements Paiment { }
   record DebitCard() implements Paiment { }
 }
+
+// only stable name are alllowed (no anonymous class/lambda)
 
 // ## Sealed Hierarchy is closed by default
 // so we need a keyword to re-allow subtypes
@@ -389,11 +414,11 @@ int computeTax(Vehicle vehicle) {
 // - if the types are not visible (or NEVER change)
 // - if they are versioned data
 
-// ## How to introduce Pattern Matching in Java ?
-// - fix the switch
-// - add a variant that works with expressions
-// - add different patterns
-// - deal with encapsulation ?
+// ## Plan to introduce Pattern Matching in Java
+// 1. fix the switch
+// 2. add a variant that works with expressions
+// 3. add different kind of patterns
+// 4. deal with encapsulation ?
 
 // ## The good old switch
 // The switch in C is alien to C
@@ -408,7 +433,7 @@ switch(seats) {
     int s = seats;
     type = "medium " + s;
     break;
-  default:
+  default:  // do not compile if uncommented, why ?
     //String s = "debug";
     //System.out.println(s);
     type = "big";
@@ -417,13 +442,14 @@ System.out.println(type);
 
 // ## Fix the switch
 // reuse the lambda syntax
-// (retcon: the lambda syntax uses the arrow switch syntax)
+// (retcon: now the lambda syntax uses the arrow switch syntax)
 
-// - fix fallthrough, use a block if more than one instruction
-// - need an OR operator between the values (use ",")
-// - fix weird scope, one scope per case
+// 1. fix fallthrough, use a block if more than one instruction
+// 2. need an OR operator between the values (use ",")
+// 3. fix weird scope, one scope per case
 
 // ## Arrow switch
+// use '->' instead of ':'
 int seats = 3;
 String type;
 switch(seats) {
@@ -447,6 +473,7 @@ System.out.println(type);
 // But we can not use the keyword __return__
 
 // ## switch expression (2)
+// we use a new keyword __yield__
 var seats = 3;
 var type = switch(seats) {
   case 1 -> "small";
@@ -455,6 +482,24 @@ var type = switch(seats) {
     yield "medium " + s;
   }
   default -> {
+    var s = "debug";
+    System.out.println(s);
+    yield "big";
+  }
+};  // <-- don't forget the semicolon !
+System.out.println(type);
+
+// # also work with the legacy syntax
+var seats = 3;
+var type = switch(seats) {
+  case 1:
+    yield "small";
+  case 2:
+  case 3: {
+    var s = seats;
+    yield "medium " + s;
+  }
+  default: {
     var s = "debug";
     System.out.println(s);
     yield "big";
@@ -478,7 +523,7 @@ if (list instanceof List<?> list) { }  // ok
 if (list instanceof List<String> list) { }  // ok
 //if (list instanceof List<Integer> list) { }  // error
 
-// ## instanceof & not ("!")
+// ## instanceof with not ("!")
 // a weird case supported because it's a common idiom
 record Foo(String s) {
   @Override
@@ -491,7 +536,7 @@ record Foo(String s) {
   }
 }
 
-// ## instanceof & not ("!")
+// ## instanceof with &&
 // but it can be written in a better way
 record Foo(String s) {
   @Override
@@ -514,7 +559,8 @@ switch(fileref) {
 // a __default__ is needed because all possible types are not covered
 
 // ## switch on type
-// is semantically equivalent to a cascade of if instanceof + else
+// is semantically equivalent to a cascade of
+// __if__ __instanceof__ + __else__
 Object fileref = Path.of("path/to/foo.txt");
 if (fileref instanceof Path path) {
   System.out.println(path.getFileName());
@@ -566,14 +612,16 @@ switch(cake) {
   // no default required
 }
 
+// like with an enum
+
 // ## Patterns
-// switch recognize the following patterns
-// - type pattern
+// The following patterns are recognized by switch
+// - **type** pattern
 //   - String s
 //   - var s  (Java 18)
-// - guard pattern
+// - **guard** pattern
 //   - _pattern_ && _boolean_condition_
-// - parenthesis pattern
+// - **parenthesis** pattern
 //   - ( _pattern_ )
 
 // ## guards
@@ -585,6 +633,8 @@ var good = switch(cake) {
   case Cookie cookie && cookie.chunky() -> true;
   case Cookie cookie -> false;
 };
+
+// guards have access to the binding names
 
 // # pattern Matching: Under the hood !
 
@@ -671,7 +721,7 @@ var result = switch((Object) 3) {
 // ## swich on types + guard
 var result = switch((Integer) 3) {
   case Integer i && i == 0 -> true;
-  case Integer i -> false;
+  case null, Integer i -> false;
 };
 
 // ## decompiled by IntelliJ
@@ -720,10 +770,10 @@ var result = switch((Integer) 3) {
 // ```
 
 // ## Other OpenJDK projects
+//  - Panama (already incubating)
+//    - Vector(SIMD) API / Foreign Memory / Foreign Linker
 //  - Loom: Java 19 ?
 //    - support other OSes (and continuations are hidden)
-//  - Panama
-//    - Vector(SIMD) API / Foreign Memory / Foreign Linker
 //  - Valhalla
 //    - Primitive class + Parametric VM
 //  - CRaC
