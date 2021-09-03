@@ -580,6 +580,17 @@ switch(fileref) {
 
 // like the catchs of a try/catch
 
+// ## switch on type with constants
+// constants dominate their type, so
+// should be written before
+Integer value = 42;
+switch(value) {
+  case 0 -> System.out.println("zero");
+  case Integer i -> System.out.println(i);
+}
+
+// case 0 is before case Integer
+
 // ## Type Pattern & null
 // by default, a switch throws a NPE on null
 // ```java
@@ -752,6 +763,17 @@ var result = switch((Integer) 3) {
 //   - String[] { var s, var t } ->  // array of length 2
 //   - Point[] { var p, ... } ->  // array of length >= 1
 
+// ## Example of a record pattern
+// access to the record components as binding names
+// ```java
+// sealed interface Cake permits Cookie {}
+// record Cookie(boolean chunky) implements Cake {}
+// var good = switch(cake) {
+//  case Cookie(var chunky) && chunky -> true;
+//  case Cookie cookie -> false;
+// };
+// ```
+
 // ## Future ?
 // - destructuring assignment
 // ```java
@@ -772,7 +794,7 @@ var result = switch((Integer) 3) {
 // ## Other OpenJDK projects
 //  - Panama (already incubating)
 //    - Vector(SIMD) API / Foreign Memory / Foreign Linker
-//  - Loom: Java 19 ?
+//  - Loom
 //    - support other OSes (and continuations are hidden)
 //  - Valhalla
 //    - Primitive class + Parametric VM
