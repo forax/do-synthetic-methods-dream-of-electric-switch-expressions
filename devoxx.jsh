@@ -396,7 +396,7 @@ record Bus() implements Vehicle { }
 record Car() implements Vehicle { }
 
 int computeTax(Vehicle vehicle) {
-  return switch(vehicle) {  // must be exhaustive
+  return switch(vehicle) {  // is exhaustive
     case Bus bus -> 12;
     case Car car -> 6;
   };

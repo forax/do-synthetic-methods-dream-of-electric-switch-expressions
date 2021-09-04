@@ -535,7 +535,7 @@ record Car() implements Vehicle { }
 
 ```java
 int computeTax(Vehicle vehicle) {
-  return switch(vehicle) {  // must be exhaustive
+  return switch(vehicle) {  // is exhaustive
     case Bus bus -> 12;
     case Car car -> 6;
   };
