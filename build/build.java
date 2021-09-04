@@ -237,6 +237,7 @@ class build {
             			// - https://revealjs.com/config/
             			Reveal.initialize({
             				hash: true,
+            				slideNumber: true,
                         
             				// Learn about plugins: https://revealjs.com/plugins/
             				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
