@@ -182,7 +182,7 @@ do nothing if the list is already unmodifiable
 System.out.println(
     "  SELECT *\n" +
     "  FROM users\n" +
-    "  WHERE login == Bob"
+    "  WHERE login == \"Bob\""
 );
 ```
 
@@ -193,7 +193,7 @@ Use `"""` to start and end the String
 System.out.println("""
     SELECT *
     FROM users
-    WHERE login == Bob
+    WHERE login == "Bob"
   """);
 ```
 
@@ -205,11 +205,11 @@ System.out.println("""
 ## Text Block <=> a Box of Text
 Acts as a box around the text
 ```
-|--------------------|
-|..SELECT *          |
-|..FROM users        |
-|..WHERE login == Bob|
-|--------------------|
+|----------------------|
+|..SELECT *            |
+|..FROM users          |
+|..WHERE login == "Bob"|
+|----------------------|
 ```
 
 ---
@@ -220,8 +220,8 @@ so it's more like
 |----------|
 |  SELECT *|
 |  FROM users|
-|  WHERE login == Bob|
-|--------------------|
+|  WHERE login == "Bob"|
+|----------------------|
 ```
 
 ---
@@ -229,9 +229,9 @@ so it's more like
 Use `\s` to keep the space on the right
 ```java
 System.out.println("""
-     SELECT *           \s
-     FROM users         \s
-     WHERE login == Bob \s
+     SELECT *             \s
+     FROM users           \s
+     WHERE login == "Bob" \s
    """);
 ```
 
@@ -244,9 +244,9 @@ System.out.println("""
 Escaping works as usual (`\t`, `\n`, `\"`, etc.)
 ```java
 System.out.println("""
-     SELECT *
-     FROM users
-     WHERE login == \"Bob\"
+   \tSELECT *
+   \tFROM users
+   \tWHERE login == "Bob"
    """
   );
 ```
@@ -258,7 +258,7 @@ You can ask to not have the implicit newlines with `\`
 System.out.println("""
    SELECT * \
    FROM users \
-   WHERE login == Bob \
+   WHERE login == "Bob" \
    """
   );
 ```
@@ -269,7 +269,7 @@ System.out.println("""
 ---
 ## VBC will become primitive classes
 a primitive class is created by a factory / has no header
-- new VBC(...) is deprecated with removal
+- new VBC(...) is deprecated for removal
 ```java
 var value = new Integer(3);  // warning
 ```
@@ -644,7 +644,7 @@ System.out.println(type);
 ```
 
 ---
-# also work with the legacy syntax
+# and with the legacy syntax
 ```java
 var seats = 3;
 var type = switch(seats) {

@@ -127,7 +127,7 @@ var list2 = List.copyOf(list);
 System.out.println(
     "  SELECT *\n" +
     "  FROM users\n" +
-    "  WHERE login == Bob"
+    "  WHERE login == \"Bob\""
 );
 
 // ## Text Block
@@ -135,7 +135,7 @@ System.out.println(
 System.out.println("""
     SELECT *
     FROM users
-    WHERE login == Bob
+    WHERE login == "Bob"
   """);
 
 
@@ -144,11 +144,11 @@ System.out.println("""
 // ## Text Block <=> a Box of Text
 // Acts as a box around the text
 // ```
-// |--------------------|
-// |..SELECT *          |
-// |..FROM users        |
-// |..WHERE login == Bob|
-// |--------------------|
+// |----------------------|
+// |..SELECT *            |
+// |..FROM users          |
+// |..WHERE login == "Bob"|
+// |----------------------|
 // ```
 
 // ## Block of Text
@@ -158,16 +158,16 @@ System.out.println("""
 // |----------|
 // |  SELECT *|
 // |  FROM users|
-// |  WHERE login == Bob|
-// |--------------------|
+// |  WHERE login == "Bob"|
+// |----------------------|
 // ```
 
 // ## Spaces on the right
 // Use `\s` to keep the space on the right
 System.out.println("""
-     SELECT *           \s
-     FROM users         \s
-     WHERE login == Bob \s
+     SELECT *             \s
+     FROM users           \s
+     WHERE login == "Bob" \s
    """);
 
 
@@ -176,9 +176,9 @@ System.out.println("""
 // ## Not a raw String !
 // Escaping works as usual (`\t`, `\n`, `\"`, etc.)
 System.out.println("""
-     SELECT *
-     FROM users
-     WHERE login == \"Bob\"
+   \tSELECT *
+   \tFROM users
+   \tWHERE login == "Bob"
    """
   );
 
@@ -187,7 +187,7 @@ System.out.println("""
 System.out.println("""
    SELECT * \
    FROM users \
-   WHERE login == Bob \
+   WHERE login == "Bob" \
    """
   );
 
@@ -195,7 +195,7 @@ System.out.println("""
 
 // ## VBC will become primitive classes
 // a primitive class is created by a factory / has no header
-// - new VBC(...) is deprecated with removal
+// - new VBC(...) is deprecated for removal
 var value = new Integer(3);  // warning
 // - can not synchronize on them
 var empty = Optional.empty();
@@ -489,7 +489,7 @@ var type = switch(seats) {
 };  // <-- don't forget the semicolon !
 System.out.println(type);
 
-// # also work with the legacy syntax
+// # and with the legacy syntax
 var seats = 3;
 var type = switch(seats) {
   case 1:
