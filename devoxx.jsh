@@ -495,15 +495,13 @@ var type = switch(seats) {
   case 1:
     yield "small";
   case 2:
-  case 3: {
+  case 3:
     var s = seats;
     yield "medium " + s;
-  }
-  default: {
-    var s = "debug";
-    System.out.println(s);
+  default:
+    //var s = "debug";
+    //System.out.println(s);
     yield "big";
-  }
 };  // <-- don't forget the semicolon !
 System.out.println(type);
 

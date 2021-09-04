@@ -651,15 +651,13 @@ var type = switch(seats) {
   case 1:
     yield "small";
   case 2:
-  case 3: {
+  case 3:
     var s = seats;
     yield "medium " + s;
-  }
-  default: {
-    var s = "debug";
-    System.out.println(s);
+  default:
+    //var s = "debug";
+    //System.out.println(s);
     yield "big";
-  }
 };  // <-- don't forget the semicolon !
 System.out.println(type);
 ```
@@ -1040,6 +1038,7 @@ class Point {
 			// - https://revealjs.com/config/
 			Reveal.initialize({
 				hash: true,
+				slideNumber: true,
 
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
