@@ -795,7 +795,7 @@ var result = switch((Integer) 3) {
 //  - Panama (already incubating)
 //    - Vector(SIMD) API / Foreign Memory / Foreign Linker
 //  - Loom
-//    - support other OSes (and continuations are hidden)
+//    - support other OSes (continuations are now hidden)
 //  - Valhalla
 //    - Primitive class + Parametric VM
 //  - CRaC
