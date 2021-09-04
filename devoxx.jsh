@@ -215,19 +215,20 @@ System.out.println("bob age" + bob.age());  // 32
 
 // ## equals/hashCode
 // the compiler also generates equals and hashCode that delegates to the components
+var bob = new Person("Bob", 32);
 var bob2 = new Person("Bob", 32);
 System.out.println(bob.hashCode());  // 2075947
 System.out.println(bob2.hashCode());  // 2075947
 System.out.println(bob.equals(bob2));  // true
 
 // ## toString
-// it also generates a method toString()
+// it also generates a method toString
 System.out.println(bob);  // Person[name=Bob, age=32]
 
 // the exact text can change with the JDK version
 
 // ## overriding
-// the generated method can be overridden
+// a generated method can be overridden
 record Person(String name, int age) {
   @Override
   public String toString() {
@@ -236,7 +237,7 @@ record Person(String name, int age) {
 }
 
 // ## Canonical constructor
-// the compiler generate a constructor to initialize all
+// the compiler generates a constructor that initializes all
 // the components
 record Person(String name, int age) {
   public Person(String name, int age) {
@@ -304,10 +305,10 @@ record Person(@Override String name, int age) {}
 
 // ## serialization
 // a record is serializable/deserializable automatically if
-// - it implements Serializable
+// - it implements __Serializable__
 // - all the components are serializable
 
-// the canonical constructor is called when deserialization (yai !)
+// the canonical constructor is called when deserializing (yai !)
 
 // ## records as serialization proxies
 class Foo implements Serializable {
