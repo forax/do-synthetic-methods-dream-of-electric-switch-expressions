@@ -376,7 +376,7 @@ sealed interface Component {
 // # pattern matching
 
 // ## Expression problem
-// a classical hierarchy allows adding new subtypes but no other operation
+// a classical hierarchy allows adding new subtypes but no other operations
 interface Vehicle {
   int computeTax();
 }
@@ -390,7 +390,7 @@ record Car() implements Vehicle {
 // (if you are not the maintainer of the code)
 
 // ## Expression problem (2)
-// a sealed hierarchy allows adding new operations but no other subtype
+// a sealed hierarchy allows adding new operations but no other subtypes
 sealed interface Vehicle permits Bus, Car { }
 record Bus() implements Vehicle { }
 record Car() implements Vehicle { }
@@ -408,7 +408,7 @@ int computeTax(Vehicle vehicle) {
 // - Allow __users__ of existing types to specify new operations
 // - Ease __maintenance__ by showing the whole algorithm in one place
 
-// Not new, this is the Visitor Pattern
+// Not new to OOP, this is the Visitor Pattern
 
 // ## Pattern Matching (2)
 // BUT the hierarchy MUST be sealed and only works
@@ -545,6 +545,16 @@ record Foo(String s) {
 }
 
 // # switch on types
+
+// ## preview feature in 17
+// must be enabled at compile time
+// ```sh
+//  javac --enable-preview --source 17 *.java
+// ```
+// and at runtime
+// ```sh
+//  java --enable-preview MyApp
+// ```
 
 // ## switch on types
 // extends the switch to any type
@@ -773,12 +783,12 @@ var result = switch((Integer) 3) {
 // };
 // ```
 
-// ## Future ?
+// ## Future (Java 19+)
 // - destructuring assignment
 // ```java
 // Point(var x, var y) = point;
 // ```
-// - de-constructor, allow pattern on classes
+// - de-constructor, pattern __methods__ on classes
 // ```java
 // class Point {
 //   private int x;
