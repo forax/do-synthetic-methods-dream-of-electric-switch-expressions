@@ -53,8 +53,7 @@
 Functional interface + lambda + type inference
 
 ```java
-import java.io.Serializable;
-import java.util.Objects;Runnable code = () -> {
+Runnable code = () -> {
    System.out.println("hello");
 };
 Comparator<String> cmp =
@@ -552,14 +551,18 @@ int computeTax(Vehicle vehicle) {
 Not new to OOP, this is the Visitor Pattern
 
 ---
-## Pattern Matching (2)
-BUT the hierarchy MUST be sealed and only works
-- if the types are not visible (or NEVER change)
-- if they are versioned data
+## Pattern Matching maintenance
+problem when adding a new subtype
+- for library
+  - ok but for non-public types
+- for application
+  - use exhaustive switches
+
+same rules as with enums
 
 ---
 ## Plan to introduce Pattern Matching in Java
-1. fix the switch
+1. fix switch syntax
 2. add a variant that works with expressions
 3. add different kind of patterns
 4. deal with encapsulation ?
