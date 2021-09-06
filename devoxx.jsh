@@ -743,7 +743,7 @@ var result = switch((Object) 3) {
 // }
 // ```
 
-// ## swich on types + guard
+// ## switch on types + guard
 var result = switch((Integer) 3) {
   case Integer i && i == 0 -> true;
   case null, Integer i -> false;
