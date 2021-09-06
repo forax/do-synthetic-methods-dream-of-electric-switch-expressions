@@ -4,6 +4,8 @@
 
 // # Java 17
 
+// ## <img src="duke-covid.jpg" alt="drawing" width="500"/>
+
 // ## Java 1.0: OOP
 // - Class: state + behaviors
 //   - Encapsulation
