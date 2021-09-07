@@ -362,7 +362,7 @@ record Add<T>(T left, T right) implements Expr<T> {}
 // __permits__ only list the name of the types
 
 // ## Empty permits
-// empty __permits__ clause is forbidden
+// an empty __permits__ clause is forbidden
 
 // __final__ should be used instead
 
