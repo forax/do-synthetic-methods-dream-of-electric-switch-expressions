@@ -436,7 +436,7 @@ int computeTax(Vehicle vehicle) {
 // ## Plan to introduce Pattern Matching in Java
 // 1. fix switch syntax
 // 2. add a variant that works with expressions
-// 3. add different kind of patterns (we are here now !)
+// 3. add different kinds of patterns (we are here now !)
 // 4. deal with class encapsulation ?
 
 // ## The good old switch
