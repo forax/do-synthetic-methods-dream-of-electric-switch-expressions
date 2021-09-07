@@ -147,6 +147,9 @@ class IOResource {
 
 // avoid resurrection and concurrency issues
 
+// use try-with resources instead
+
+
 // # Value Based Class
 
 // ## VBC will become primitive classes
