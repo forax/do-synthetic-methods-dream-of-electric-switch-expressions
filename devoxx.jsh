@@ -27,37 +27,11 @@
 // - be more modern
 //   - move away from inheritance ?
 
-// # Java 8
+// # Java 11 - Language changes
 
-// ## Lambdas
-// Functional interface + lambda + type inference
-
-Runnable code = () -> {
-   System.out.println("hello");
-};
-Comparator<String> cmp =
-    (s1, s2) -> s1.compareToIgnoreCase(s2);
-
-// make easy to define anonymous functions
-
-// ## Stream & Collector
-// Higher-order methods using anonymous functions
-List<String> strings =
-    IntStream.range(0, 10).
-      mapToObj(i -> "" + i).
-      collect(Collectors.toList());
-
-// # Java 11
-
-// ## Module
-//  Modularize the Java Platform
-//  - more encapsulation (less reflection)
-//  - the JDK is not monolithic anymore
-//    - move the java EE crufts to Maven Central
-//    - no more JRE, use jlink instead
-
-// ## Language changes
+// ## var inference
 // inference of local variable types
+
 var x = 3;
 var s = "hello";
 // also infer intersection types / anonymous classes
@@ -85,38 +59,66 @@ Comparator<String> cmp = new Comparator<>() {
 // - try-with-resources with an existing variable
 // - '_' is not a valid identifier anymore
 
-// ## Nestmate Access
-// The VM understand private access between classes
-// of the same Java file
-class Foo {
-  static class Bar {
-    private int x;
+// # Java 17
+
+// # Collection APIs
+
+// ## Unmodifiable Collections (Java 11)
+// unnamed, compact and null free
+var list = List.of(1, 2);  // [1, 2]
+var set = Set.of("1", "2");  // [1, 2]
+var map = Map.of("dog", 12, "cat", 42);  // {cat=42, foo=12}
+
+// ## Defensive copy
+// List/Set/Map.copyOf() duplicate the elements of
+// a collection to an unmodifiable List/Set/Map
+class Company {
+  private final List<String> employees;
+  public Company(List<String> employees) {
+    this.employees = List.copyOf(employees);
   }
-  public static void main(String[] args) {
-    System.out.println(new Bar().x);
+  public List<String> employee() {
+    return employee;  // no defensive copy
   }
 }
 
-// no method access$000 anymore
+// do nothing if already unmodifiable
 
-// ## String Enhancements
-// - Compact String
-//   -  String have a double representation ISO Latin 1 / UTF-16
-// - String concatenation
-//   - use 1 invokedynamic instead of new StringBuilder() + append() + toString()
+// ## Collection and Null, troubled History
+// - Java 1.0: Vector, Hashtable are null free
+// - Java 1.2: Collections allows null
+// - Java 1.5: ArrayDeque + j.u.concurrent are null free
+// - Java 11: List/Set/Map.of() are null free
 
-// ## Unmodifiable Collections
-// unnamed, compact and null free
-var list = List.of(1, 2);
-var set = Set.of("foo", "bar");
-var map = Map.of("dog", 12, "cat", 42);
-//  defensive copy with List/Set/Map.copyOf()
-var list2 = List.copyOf(list);
-// do nothing if the list is already unmodifiable
+// ## The 3 ways to create a List
+// - unmodifiable and compact
+List.of("foo", "bar")
+// - modifiable but not resizeable
+Arrays.asList("foo", null)
+// - modifiable and resizeable
+new ArrayList<String>()
 
+// ## Streams are smarter
+// the size is propagated
+Stream.of("foo").map(e -> { throw null; }).count()
+List.of(2, 3).stream().map(e -> { throw null; }).count()
 
+// also works with .limit() and .skip()
 
-// # Java 17
+// ## Stream.toList()
+// replacement for stream.collect(Collectors.toList())
+Stream.of(1, 2).map(e -> "" + e).collect(Collectors.toList())
+// can be simplify to
+Stream.of(1, 2).map(e -> "" + e).toList()
+
+// the returned List is unmodifiable
+
+// ## Stream.toList() and __null__
+// To be a dropin replacement for Collectors.toList(),
+// stream.toList() allows __null__
+Arrays.asList("foo", null).stream().toList()  // Ok
+
+// the List is unmodifiable but allows null
 
 // # Text Block
 
