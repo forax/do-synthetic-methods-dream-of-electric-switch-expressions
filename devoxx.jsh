@@ -98,7 +98,7 @@ Arrays.asList("foo", null)
 // - modifiable and resizeable
 new ArrayList<String>()
 
-// ## Java 11: Streams are smarter
+// ## Java 17: Streams are smarter
 // the size is propagated
 Stream.of("foo").map(e -> { throw null; }).count()
 List.of(2, 3).stream().map(e -> { throw null; }).count()
