@@ -98,7 +98,7 @@ Arrays.asList("foo", null)
 // - modifiable and resizeable
 new ArrayList<String>()
 
-// ## Streams are smarter
+// ## Java 11: Streams are smarter
 // the size is propagated
 Stream.of("foo").map(e -> { throw null; }).count()
 List.of(2, 3).stream().map(e -> { throw null; }).count()
@@ -115,12 +115,21 @@ Stream.of(1, 2).map(e -> "" + e).toList()
 
 // ## Stream.toList() and __null__
 // To be a dropin replacement for Collectors.toList(),
-// stream.toList() allows __null__
+// stream.toList() must allow __null__
 Arrays.asList("foo", null).stream().toList()  // Ok
 
-// the List is unmodifiable but allows null
+// # Value Based Class
 
-// # Text Block
+// ## VBC will become primitive classes
+// a primitive class is created by a factory / has no header
+// - new VBC(...) is deprecated for removal
+  var value = new Integer(3);  // warning
+// - can not synchronize on them
+  var empty = Optional.empty();
+  synchronized (empty) {}  // warning
+
+
+  // # Text Block
 
 // ## Design forces
 // - add multiline strings in Java (the Kotlin way)
@@ -193,16 +202,6 @@ System.out.println("""
    WHERE login == "Bob" \
    """
   );
-
-// # Value Based Class
-
-// ## VBC will become primitive classes
-// a primitive class is created by a factory / has no header
-// - new VBC(...) is deprecated for removal
-var value = new Integer(3);  // warning
-// - can not synchronize on them
-var empty = Optional.empty();
-synchronized (empty) {}  // warning
 
 // # Record
 
