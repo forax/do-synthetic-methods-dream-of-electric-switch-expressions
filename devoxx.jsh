@@ -128,6 +128,13 @@ Stream.of(1, 2).map(e -> "" + e).toList()
 // stream.toList() must allow __null__
 Arrays.asList("foo", null).stream().toList()  // Ok
 
+// ## Stream.mapMulti()
+// like flatMap() but without creating a Stream
+Stream.of(0, 1).mapMulti((e, sink) -> {
+  sink.accept(e * 3);
+  sink.accept(e * 3 + 1);
+}).toList()   // [0, 1, 3, 4]
+
 // ## finalize is deprecated
 class IOResource {
   protected void finalize() {
