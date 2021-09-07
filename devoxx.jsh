@@ -129,7 +129,7 @@ Arrays.asList("foo", null).stream().toList()  // Ok
   synchronized (empty) {}  // warning
 
 
-  // # Text Block
+// # Text Block
 
 // ## Design forces
 // - add multiline strings in Java (the Kotlin way)
