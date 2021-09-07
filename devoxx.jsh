@@ -135,6 +135,9 @@ Stream.of(0, 1).mapMulti((e, sink) -> {
   sink.accept(e * 3 + 1);
 }).toList()   // [0, 1, 3, 4]
 
+
+// # Object finalization
+
 // ## finalize is deprecated
 class IOResource {
   protected void finalize() {
