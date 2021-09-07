@@ -374,7 +374,7 @@ sealed interface Paiment {  // no permits clause
   record DebitCard() implements Paiment { }
 }
 
-// only stable name are alllowed (no anonymous class/lambda)
+// only "stable" names are alllowed (no anonymous class/lambda)
 
 // ## Sealed Hierarchy is closed by default
 // so we need a keyword to re-allow subtypes
