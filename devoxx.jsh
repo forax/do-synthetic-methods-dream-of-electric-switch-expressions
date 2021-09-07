@@ -209,6 +209,8 @@ System.out.println("""
 // a record is a named tuple with no encapsulation
 record Person(String name, int age) {}
 
+// a record is unmodifiable
+
 // ## component & accessors
 // for each component, the compiler generates an accessor method
 var bob = new Person("Bob", 32);
