@@ -128,6 +128,15 @@ Stream.of(1, 2).map(e -> "" + e).toList()
 // stream.toList() must allow __null__
 Arrays.asList("foo", null).stream().toList()  // Ok
 
+// ## finalize is deprecated
+class IOResource {
+  protected void finalize() {
+    // deprecated
+  }
+}
+
+// avoid resurrection and concurrency issues
+
 // # Value Based Class
 
 // ## VBC will become primitive classes

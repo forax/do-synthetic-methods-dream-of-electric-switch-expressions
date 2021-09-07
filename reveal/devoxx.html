@@ -191,6 +191,18 @@ Arrays.asList("foo", null).stream().toList()  // Ok
 ```
 
 ---
+## finalize is deprecated
+```java
+class IOResource {
+  protected void finalize() {
+    // deprecated
+  }
+}
+```
+
+avoid resurrection and concurrency issues
+
+---
 # Value Based Class
 
 ---
