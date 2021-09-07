@@ -367,8 +367,8 @@ record Add<T>(T left, T right) implements Expr<T> {}
 // __final__ should be used instead
 
 // ## inference
-// if all subtypes are in the same compilation unit,
-// the compiler can infer the permit clause if not declared
+// if all subtypes are in the same file,
+// the compiler infers the __permits__ clause if not declared
 sealed interface Paiment {  // no permits clause
   record CreditCard() implements Paiment { }
   record DebitCard() implements Paiment { }
@@ -436,8 +436,8 @@ int computeTax(Vehicle vehicle) {
 // ## Plan to introduce Pattern Matching in Java
 // 1. fix switch syntax
 // 2. add a variant that works with expressions
-// 3. add different kind of patterns
-// 4. deal with encapsulation ?
+// 3. add different kind of patterns (we are here now !)
+// 4. deal with class encapsulation ?
 
 // ## The good old switch
 // The switch in C is alien to C
