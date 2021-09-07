@@ -454,7 +454,6 @@ switch(seats) {
     break;
   default:  // do not compile if uncommented, why ?
     //String s = "debug";
-    //System.out.println(s);
     type = "big";
 }
 System.out.println(type);
@@ -479,7 +478,6 @@ switch(seats) {
   }
   default -> {
     String s = "debug";
-    System.out.println(s);
     type = "big";
   }
 }
@@ -502,7 +500,6 @@ var type = switch(seats) {
   }
   default -> {
     var s = "debug";
-    System.out.println(s);
     yield "big";
   }
 };  // <-- don't forget the semicolon !
@@ -519,7 +516,6 @@ var type = switch(seats) {
     yield "medium " + s;
   default:
     //var s = "debug";
-    //System.out.println(s);
     yield "big";
 };  // <-- don't forget the semicolon !
 System.out.println(type);
