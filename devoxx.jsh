@@ -6,6 +6,16 @@
 
 // ## <img src="duke-covid.jpg" alt="drawing" width="500"/>
 
+// ## Plan
+// - Collection / Stream APIs
+// - Value Based Classes
+// - Text Block
+// - Record and Sealed Types
+// - Pattern Matching
+//   - arrow switch / switch expression
+//   - instanceof + type pattern
+//   - switch on types
+
 // ## Java 1.0: OOP
 // - Class: state + behaviors
 //   - Encapsulation
