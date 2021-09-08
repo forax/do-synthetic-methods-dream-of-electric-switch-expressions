@@ -16,26 +16,12 @@
 //   - instanceof + type pattern
 //   - switch on types
 
-// ## Java 1.0: OOP
-// - Class: state + behaviors
-//   - Encapsulation
-// - Subtyping / Interface
-// - Late binding / Polymophic method calls
-
 // ## Java Evolution
 // - Java 1.0 - OOP              (1995)
 // - Java 1.5 - Enum & Generics  (2004)
 // - Java 1.8 - Lambdas          (2014)
 // - Java 23  - Pattern Matching (2024)
-//   - Java 17  - Records        (2021)
-
-// ## Ideas to move forward (1.6+)
-// - better support _new_ kind of applications
-// - be more functional
-//   - lambda, pattern matching ?
-//   - push for immutability ?
-// - be more modern
-//   - move away from inheritance ?
+//   - Java 17  - Records & Sealed Types (2021)
 
 // # Java 11 - Language changes
 
