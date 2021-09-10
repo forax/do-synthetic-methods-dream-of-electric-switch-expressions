@@ -385,6 +385,11 @@ record Add<T>(T left, T right) implements Expr<T> {}
 // ## Empty permits
 // an empty __permits__ clause is forbidden
 
+// ## Constraints on subtypes
+// subtypes must be
+// - in the same package
+// - in the same module, if there is a module
+
 // __final__ should be used instead
 
 // ## inference
