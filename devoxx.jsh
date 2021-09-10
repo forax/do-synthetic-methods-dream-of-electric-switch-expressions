@@ -28,7 +28,8 @@
 // ## var inference
 // inference of local variable types
 
-var x = 3;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;var x = 3;
 var s = "hello";
 // also infer intersection types / anonymous classes
 var box = new Object() { int x; };
@@ -318,12 +319,24 @@ class Foo {
   }
 }
 
+// ## reflection API
+// the components are available at runtime
+record Person(String name, int age) {}
+List<java.lang.reflect.RecordComponent> components =
+    List.of(Person.class.getRecordComponents());
+
 // ## annotation on component
+// A new target RECORD_COMPONENT is added
+@Target({ElementType.RECORD_COMPONENT})
+@interface NotNull {}
+record Person(@NotNull String name, int age) {}
+
+// ## annotation legacy
 // Annotation on a component are propagated to the corresponding field
 // and accessor  depending on the annotation target
-record Person(@Override String name, int age) {}
-
-// @Override is propagated to the accessor but not to the field
+@Target({ElementType.METHOD, ElementType.FIELD})
+@interface NotNull {}
+record Person(@NotNull String name, int age) {}
 
 // ## serialization
 // a record is serializable/deserializable automatically if

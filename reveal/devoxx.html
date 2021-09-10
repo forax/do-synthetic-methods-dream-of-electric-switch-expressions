@@ -51,7 +51,8 @@
 inference of local variable types
 
 ```java
-var x = 3;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;var x = 3;
 var s = "hello";
 ```
 also infer intersection types / anonymous classes
@@ -444,11 +445,22 @@ class Foo {
 ```
 
 ---
+## reflection API
+the components are available at runtime
+```java
+record Person(String name, int age) {}
+List<java.lang.reflect.RecordComponent> components =
+    List.of(Person.class.getRecordComponents());
+```
+
+---
 ## annotation on component
 Annotation on a component are propagated to the corresponding field
 and accessor  depending on the annotation target
 ```java
-record Person(@Override String name, int age) {}
+@Target({ElementType.METHOD, ElementType.FIELD})
+@interface NotNull {}
+record Person(@NotNull String name, int age) {}
 ```
 
 @Override is propagated to the accessor but not to the field
