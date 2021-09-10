@@ -325,7 +325,7 @@ record Person(String name, int age) {}
 List<java.lang.reflect.RecordComponent> components =
     List.of(Person.class.getRecordComponents());
 
-// ## annotation on component
+// ## annotation on components
 // A new target RECORD_COMPONENT is added
 @Target({ElementType.RECORD_COMPONENT})
 @interface NotNull {}

@@ -454,7 +454,16 @@ List<java.lang.reflect.RecordComponent> components =
 ```
 
 ---
-## annotation on component
+## annotation on components
+A new target RECORD_COMPONENT is added
+```java
+@Target({ElementType.RECORD_COMPONENT})
+@interface NotNull {}
+record Person(@NotNull String name, int age) {}
+```
+
+---
+## annotation legacy
 Annotation on a component are propagated to the corresponding field
 and accessor  depending on the annotation target
 ```java
@@ -462,8 +471,6 @@ and accessor  depending on the annotation target
 @interface NotNull {}
 record Person(@NotNull String name, int age) {}
 ```
-
-@Override is propagated to the accessor but not to the field
 
 ---
 ## serialization
