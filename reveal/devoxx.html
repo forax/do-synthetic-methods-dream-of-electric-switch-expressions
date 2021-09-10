@@ -222,6 +222,20 @@ a primitive class is created by a factory / has no header
 
 
 ---
+# Strictfp is dead
+---
+## strict fp mode is always on
+the keyword strictfp is not necessary anymore
+```java
+class Foo {
+    strictfp void bar() {}
+}
+```
+
+modern hardware is "strictfp" by default,
+SSE2 was introduced in 2001 for intel
+
+---
 # Text Block
 
 ---

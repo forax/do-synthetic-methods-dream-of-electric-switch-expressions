@@ -148,6 +148,16 @@ class IOResource {
   synchronized (empty) {}  // warning
 
 
+// # Strictfp is dead
+// ## strict fp mode is always on
+// the keyword strictfp is not necessary anymore
+class Foo {
+    strictfp void bar() {}
+}
+
+// modern hardware is "strictfp" by default,
+// SSE2 was introduced in 2001 for intel
+
 // # Text Block
 
 // ## Design forces
