@@ -333,7 +333,7 @@ record Person(@NotNull String name, int age) {}
 
 // ## annotation legacy
 // Annotation on a component are propagated to the corresponding field
-// and accessor  depending on the annotation target
+// and accessor depending on the annotation target
 @Target({ElementType.METHOD, ElementType.FIELD})
 @interface NotNull {}
 record Person(@NotNull String name, int age) {}
