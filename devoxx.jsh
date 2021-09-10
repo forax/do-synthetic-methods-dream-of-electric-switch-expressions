@@ -327,7 +327,7 @@ List<java.lang.reflect.RecordComponent> components =
 
 // ## annotation on components
 // A new target RECORD_COMPONENT is added
-@Target({ElementType.RECORD_COMPONENT})
+@Target(ElementType.RECORD_COMPONENT)
 @interface NotNull {}
 record Person(@NotNull String name, int age) {}
 
