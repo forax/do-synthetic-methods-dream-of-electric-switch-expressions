@@ -1,7 +1,6 @@
 import static java.nio.file.Files.createDirectories;
 import static java.nio.file.Files.writeString;
 import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toUnmodifiableMap;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
@@ -11,6 +10,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
@@ -20,7 +20,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 class build {
-  final static class TextBuilder {
+  static final class TextBuilder {
     private final StringBuilder builder = new StringBuilder();
     
     void append(String line) {
@@ -525,7 +525,7 @@ class build {
   
   private static List<Path> gatherFiles(Path directory, Predicate<String> filter) throws IOException {
     try(var list = Files.list(directory)) {
-      return list.filter(path -> filter.test(path.toString())).sorted(Comparator.comparing(Path::toString)).collect(toList());
+      return list.filter(path -> filter.test(path.toString())).sorted(Comparator.comparing(Path::toString)).toList();
     }
   }
   
@@ -548,7 +548,7 @@ class build {
       private final Generator<Path> generator;
       
       Kind(String extension, Generator<Path> generator) {
-        this.propertyName = name().toLowerCase();
+        this.propertyName = name().toLowerCase(Locale.ROOT);
         this.extension = extension;
         this.generator = generator;
       }
