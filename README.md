@@ -1,9 +1,10 @@
 # Do synthetic methods dream of electric switch expressions
 
-Slides for DevoxxFR 2021
+Slides celebrating Java 17
 
 ## Content
 0. [devoxx.html](https://htmlpreview.github.io/?https://github.com/forax/do-synthetic-methods-dream-of-electric-switch-expressions/blob/master/reveal/devoxx.html)
+1. [parisjug.html](https://htmlpreview.github.io/?https://github.com/forax/do-synthetic-methods-dream-of-electric-switch-expressions/blob/master/reveal/parisjug.html)
 
 ## To checks that all code examples are valid
 Using Java 17
