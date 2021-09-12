@@ -586,7 +586,7 @@ System.out.println("""
    """);
 
 
-  // # Escaping
+// # Escaping
 
 // ## Not a raw String !
 // Escaping works as usual (`\t`, `\n`, `\"`, etc.)
@@ -597,7 +597,7 @@ System.out.println("""
    """
   );
 
-  // ## Remove the `\n`
+// ## Remove the `\n`
 // You can ask to not have the implicit newlines with `\`
 System.out.println("""
    SELECT * \
