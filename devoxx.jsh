@@ -20,7 +20,7 @@
 // - Java 1.0 - OOP              (1995)
 // - Java 1.5 - Enum & Generics  (2004)
 // - Java 1.8 - Lambdas          (2014)
-// - Java 23  - Pattern Matching (2024)
+// - Java 21  - Pattern Matching (2023)
 //   - Java 17  - Records & Sealed Types (2021)
 
 // # Java 11 - Language changes
@@ -28,8 +28,7 @@
 // ## var inference
 // inference of local variable types
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Target;var x = 3;
+var x = 3;
 var s = "hello";
 // also infer intersection types / anonymous classes
 var box = new Object() { int x; };
