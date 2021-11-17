@@ -19,7 +19,7 @@
 				<section data-markdown>
                   <textarea data-template>
 
-# Java 17
+# Java 17 (LTS)
 
 ---
 ## <img src="images/duke-covid-vaccine.png" alt="drawing" width="500"/>
@@ -330,7 +330,7 @@ System.out.println("""
 ```
 
 ---
-## String interpolation - Future
+## Future - String interpolation
 ```java
 String name = "Bob";
 String s = String."Hello \(name)";
@@ -511,23 +511,6 @@ a record is serializable/deserializable automatically if
 - all the components are serializable
 
 the canonical constructor is called when deserializing (yai !)
-
----
-## records as serialization proxies
-```java
-class Foo implements Serializable {
-  private String s;
-  public Foo(String s) { this.s = Objects.requireNonNull(s); }
-  private Object writeReplace() {
-    return new FooProxy(s);
-  }
-  private record FooProxy(String s) implements Serializable {
-    private Object readResolve() {
-      return new Foo(s);
-    }
-  }
-}
-```
 
 
 ---
@@ -803,7 +786,7 @@ record Foo(String s) {
 
 ---
 ## instanceof with &&
-but it can be written in a better way
+Written in a better way !
 ```java
 record Foo(String s) {
   @Override
@@ -871,8 +854,8 @@ like the catchs of a try/catch
 
 ---
 ## switch on type with constants
-constants dominate their type, so
-should be written before
+A constant dominates its type, so
+it should be written before its type
 ```java
 Integer value = 42;
 switch(value) {
@@ -972,6 +955,22 @@ switch (3) {
     result = false;
     break;
 }
+```
+
+---
+## in bytecode
+```
+ 0: iconst_3
+ 1: lookupswitch  { // 2
+   0: 28
+   1: 28
+   default: 33
+ }
+28: iconst_1
+29: istore_0
+30: goto          35
+33: iconst_0
+34: istore_0
 ```
 
 ---
@@ -1090,7 +1089,7 @@ label15: while(true) {  // WTF !
 ## <img src="images/duke-delorian.png" alt="duke with back to the future outfit" width="500"/>
 
 ---
-## Future Patterns (Java 18)
+## Future Patterns (Java 19)
 - record pattern
   - Point(int x, int y) ->  // record with 2 components
 - array pattern
@@ -1110,7 +1109,7 @@ var good = switch(cake) {
 ```
 
 ---
-## Future (Java 19+)
+## Future (Java 20+)
 - destructuring assignment
 ```java
 Point(var x, var y) = point;
@@ -1132,10 +1131,10 @@ class Point {
  - Panama (already incubating)
    - Vector(SIMD) API / Foreign Memory / Foreign Linker
  - Loom
-   - support other OSes (continuations are now hidden)
+   - should be integrated soon as preview (Java 19 ?)
  - Valhalla
    - Primitive class + Parametric VM
- - CRaC
+ - Liliput
 
 ---
 ## Github repo

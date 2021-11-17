@@ -2,7 +2,7 @@
 // then cut and paste the following lines to see how it works
 // To exit jshell type /exit
 
-// # Java 17
+// # Java 17 (LTS)
 
 // ## <img src="images/duke-covid-vaccine.png" alt="drawing" width="500"/>
 
@@ -231,7 +231,7 @@ System.out.println("""
    """
   );
 
-// ## String interpolation - Future
+// ## Future - String interpolation
 // ```java
 // String name = "Bob";
 // String s = String."Hello \(name)";
@@ -369,20 +369,6 @@ record Person(@NotNull String name, int age) {}
 // - all the components are serializable
 
 // the canonical constructor is called when deserializing (yai !)
-
-// ## records as serialization proxies
-class Foo implements Serializable {
-  private String s;
-  public Foo(String s) { this.s = Objects.requireNonNull(s); }
-  private Object writeReplace() {
-    return new FooProxy(s);
-  }
-  private record FooProxy(String s) implements Serializable {
-    private Object readResolve() {
-      return new Foo(s);
-    }
-  }
-}
 
 
 // # Sealed Types
@@ -604,7 +590,7 @@ record Foo(String s) {
 }
 
 // ## instanceof with &&
-// but it can be written in a better way
+// Written in a better way !
 record Foo(String s) {
   @Override
   public boolean equals(Object o) {
@@ -658,8 +644,8 @@ switch(fileref) {
 // like the catchs of a try/catch
 
 // ## switch on type with constants
-// constants dominate their type, so
-// should be written before
+// A constant dominates its type, so
+// it should be written before its type
 Integer value = 42;
 switch(value) {
   case 0 -> System.out.println("zero");
@@ -737,6 +723,21 @@ switch (3) {
     result = false;
     break;
 }
+
+// ## in bytecode
+// ```
+//  0: iconst_3
+//  1: lookupswitch  { // 2
+//    0: 28
+//    1: 28
+//    default: 33
+//  }
+// 28: iconst_1
+// 29: istore_0
+// 30: goto          35
+// 33: iconst_0
+// 34: istore_0
+// ```
 
 // ## arrow switch
 boolean result;
@@ -835,7 +836,7 @@ var result = switch((Integer) 3) {
 
 // ## <img src="images/duke-delorian.png" alt="duke with back to the future outfit" width="500"/>
 
-// ## Future Patterns (Java 18)
+// ## Future Patterns (Java 19)
 // - record pattern
 //   - Point(int x, int y) ->  // record with 2 components
 // - array pattern
@@ -853,7 +854,7 @@ var result = switch((Integer) 3) {
 // };
 // ```
 
-// ## Future (Java 19+)
+// ## Future (Java 20+)
 // - destructuring assignment
 // ```java
 // Point(var x, var y) = point;
@@ -874,10 +875,10 @@ var result = switch((Integer) 3) {
 //  - Panama (already incubating)
 //    - Vector(SIMD) API / Foreign Memory / Foreign Linker
 //  - Loom
-//    - support other OSes (continuations are now hidden)
+//    - should be integrated soon as preview (Java 19 ?)
 //  - Valhalla
 //    - Primitive class + Parametric VM
-//  - CRaC
+//  - Liliput
 
 // ## Github repo
 // https://github.com/forax/do-synthetic-methods-dream-of-electric-switch-expressions
